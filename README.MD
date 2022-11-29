@@ -1,1 +1,5 @@
-CHESS AI
+# ChessAI
+
+Projeto em desenvolvimento...
+
+🍷
