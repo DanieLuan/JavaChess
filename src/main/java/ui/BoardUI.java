@@ -6,7 +6,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 
 public class BoardUI {
-    BoardUI(){
+    public BoardUI(){
 
 
     }
