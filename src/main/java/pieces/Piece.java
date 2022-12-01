@@ -13,10 +13,9 @@ public abstract class Piece {
     private Color color;
     private Type type;
 
-
     abstract public void move();
 
-     public String getImagePath() {
+    public String getImagePath() {
         String filepath = "/art/pieces_img/";
         switch (type) {
             case PAWN:
@@ -50,5 +49,14 @@ public abstract class Piece {
         filepath += ".png";
         return filepath;
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
 
 }
