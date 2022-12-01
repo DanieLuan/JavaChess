@@ -12,4 +12,16 @@ public class Spot {
     public Spot(){
         currentPiece = null;
     }
+
+    public int getxCoord() {
+        return xCoord;
+    }
+
+    public int getyCoord() {
+        return yCoord;
+    }
+
+    public Piece getCurrentPiece() {
+        return currentPiece;
+    }
 }

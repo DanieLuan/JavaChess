@@ -6,10 +6,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 
 public class BoardUI {
-    public BoardUI(){
-
-
-    }
+    public BoardUI(){}
     public void PrintBoard() {
 
         var black = Color.decode("#769656");

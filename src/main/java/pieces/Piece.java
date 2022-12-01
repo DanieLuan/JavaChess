@@ -13,7 +13,9 @@ public abstract class Piece {
     private Color color;
     private Type type;
 
-    abstract public void move();
+
+    //abstract public void move();
+    //ver como fazer o movimento da peça seguindo as regras do jogo
 
     public String getImagePath() {
         String filepath = "/art/pieces_img/";
