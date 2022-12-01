@@ -6,15 +6,18 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Projeto iniciando, primeiros commits. :D");
+
         BoardUI BoardGui = new BoardUI();
         BoardGui.PrintBoard();
 
         PiecesUI PieceGui = new PiecesUI();
 
-        JLabel pieceToSpawn = PieceGui.Pawn(false);
+        JLabel pawnWhite = PieceGui.Pawn(false);
+        JLabel pawnBlack = PieceGui.Pawn(true);
 
-        BoardGui.SpawnPiece(pieceToSpawn,0,0);
+        BoardGui.SpawnPiece(pawnBlack,0,6);
+        BoardGui.SpawnPiece(pawnWhite,0,1);
+
     }
 
 }
