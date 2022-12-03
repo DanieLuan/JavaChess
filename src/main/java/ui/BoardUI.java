@@ -6,18 +6,23 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 
 public class BoardUI {
-    public BoardUI(){}
+    public BoardUI(){
+
+
+    }
+
+    //matrix of Jpanels
+    JPanel[][] Houses = new JPanel[8][8];
+    //generate Jframe
+    JFrame frame = new JFrame();
     public void PrintBoard() {
 
         var black = Color.decode("#769656");
         var white = Color.decode("#eeeed2");
         boolean isBlack = true;
 
-        //matrix of Jpanels
-        JPanel[][] Houses = new JPanel[8][8];
-
         //generate chessBoard
-        JFrame frame = new JFrame();
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setSize(816,839);
@@ -43,8 +48,10 @@ public class BoardUI {
 
         frame.setVisible(true);
     }
-    public void SpawnPiece(){
+    public void SpawnPiece(JLabel thePiece,int x,int y){
 
+        Houses[x][y].add(thePiece);
+        frame.setVisible(true);
 
     }
 
