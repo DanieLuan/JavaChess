@@ -1,24 +1,30 @@
 package pieces;
 
+import util.Color;
+import util.Type;
+
+import java.util.LinkedList;
+
 public abstract class Piece {
-
-    public enum Type {
-        PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING
-    }
-
-    public enum Color {
-        WHITE, BLACK
-    }
 
     private Color color;
     private Type type;
-
+    private int posX;
+    private int posY;
 
     //abstract public void move();
     //ver como fazer o movimento da peça seguindo as regras do jogo
 
+    public Piece(Color color, Type type, int posX, int posY) {
+        this.color = color;
+        this.type = type;
+        this.posX = posX;
+        this.posY = posY;
+
+    }
+
     public String getImagePath() {
-        String filepath = "/art/pieces_img/";
+        String filepath = "resources/";
         switch (type) {
             case PAWN:
                 filepath += "pawn_";
@@ -60,5 +66,7 @@ public abstract class Piece {
         return type;
     }
 
+    public int getPosX() { return posX; }
 
+    public int getPosY() { return posY; }
 }

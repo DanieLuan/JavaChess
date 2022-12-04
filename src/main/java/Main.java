@@ -1,22 +1,28 @@
 
 import ui.*;
+import board.*;
+import pieces.*;
+import util.*;
 
+import util.Color;
+import pieces.*;
 import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
+        Board board = new Board();
+        BoardUI BoardGui = new BoardUI(board);
+        PieceUI PieceGui = new PieceUI();
 
-        BoardUI BoardGui = new BoardUI();
         BoardGui.PrintBoard();
+        BoardGui.spawnPiecesStarter();
 
-        PiecesUI PieceGui = new PiecesUI();
 
-        JLabel pawnWhite = PieceGui.Pawn(false);
-        JLabel pawnBlack = PieceGui.Pawn(true);
+        //JLabel pawnWhite = PieceGui.Pawn(Color.WHITE);
+        //JLabel pawnBlack = PieceGui.Pawn(Color.BLACK);
 
-        BoardGui.SpawnPiece(pawnBlack,0,6);
-        BoardGui.SpawnPiece(pawnWhite,0,1);
+
 
     }
 
