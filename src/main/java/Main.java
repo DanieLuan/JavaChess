@@ -1,4 +1,3 @@
-
 import ui.*;
 import board.*;
 import pieces.*;
@@ -12,11 +11,12 @@ public class Main {
 
     public static void main(String[] args) {
         Board board = new Board();
-        BoardUI Board = new BoardUI(board);
-        PieceUI PieceGui = new PieceUI();
 
-        Board.PrintBoard();
-        Board.spawnPiecesStarter();
+        BoardUI boardUI = new BoardUI(board);
+        PieceUI pieceUI = new PieceUI();
+
+        boardUI.PrintBoard();
+        boardUI.spawnPiecesStarter();
 
 
 
