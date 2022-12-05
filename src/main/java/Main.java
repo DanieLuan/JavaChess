@@ -13,7 +13,6 @@ public class Main {
         Board board = new Board();
 
         BoardUI boardUI = new BoardUI(board);
-        PieceUI pieceUI = new PieceUI();
 
         boardUI.PrintBoard();
         boardUI.spawnPiecesStarter();

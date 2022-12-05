@@ -8,12 +8,22 @@ import pieces.*;
 public class PieceUI {
 
     private ImageIcon pieceImage;
+    public Piece piece;
 
-    Piece piece;
+    private int indexX;
+    private int indexY;
+    private int coordX;
+    private int coordY;
 
-    public PieceUI(){
+    public PieceUI(Piece piece, int indexX, int indexY, int coordX, int coordY) {
 
+        this.piece = piece;
+        this.indexX = indexX;
+        this.indexY = indexY;
+        this.coordX = coordX;
+        this.coordY = coordY;
     }
+
     /*
     public JLabel putPiece(Piece piece) {
 
