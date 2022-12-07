@@ -1,34 +1,64 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.*;
 import util.Color;
+import util.Type;
+import util.ImageThreatment;
 import pieces.*;
 
-public class PieceUI {
+import static ui.BoardUI.JPANEL_HEIGHT;
+import static ui.BoardUI.JPANEL_WIDTH;
+
+public class PieceUI extends Piece{
 
     private ImageIcon pieceImage;
-    public Piece piece;
+    private int coordUIX;
+    private int coordUIY;
 
-    private int indexX;
-    private int indexY;
-    private int coordX;
-    private int coordY;
+    private char posXchar;
 
-    public PieceUI(Piece piece, int indexX, int indexY, int coordX, int coordY) {
-
-        this.piece = piece;
-        this.indexX = indexX;
-        this.indexY = indexY;
-        this.coordX = coordX;
-        this.coordY = coordY;
+    public PieceUI(Color color, Type type, int posX, int posY, int coordUIX, int coordUIY) {
+        super(color, type, posX, posY);
+        this.pieceImage = new ImageIcon(this.getImagePath());
+        this.coordUIX = coordUIX;
+        this.coordUIY = coordUIY;
     }
 
-    /*
-    public JLabel putPiece(Piece piece) {
+    public char convertCoordXToChar() {
+        posXchar = (char) (97 + this.getPosX());
+        return posXchar;
+    }
 
+    public PieceUI(Piece piece, int coordUIX, int coordUIY){
+        super(piece.getColor(), piece.getType(), piece.getPosX(), piece.getPosY());
+        this.pieceImage = new ImageIcon(piece.getImagePath());
+        this.coordUIX = coordUIX;
+        this.coordUIY = coordUIY;
+    }
 
-        return jPiece;
+    public ImageIcon getPieceImage(){
+        this.pieceImage = ImageThreatment.pieceImageResize(pieceImage, JPANEL_WIDTH, JPANEL_HEIGHT);
+        return pieceImage;
+    }
 
-    }*/
+    public int getCoordUIX() {
+        return coordUIX;
+    }
+
+    public void setCoordUIX(int coordUIX) {
+        this.coordUIX = coordUIX;
+    }
+
+    public int getCoordUIY() {
+        return coordUIY;
+    }
+
+    public void setCoordUIY(int coordUIY) {
+        this.coordUIY = coordUIY;
+    }
+    @Override
+    public String toString() {
+        return this.getColor() + " " + this.getType() + " (" + convertCoordXToChar() + ", " + this.getPosY() + ")";
+    }
+
 }

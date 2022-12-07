@@ -14,7 +14,7 @@ public class Main {
 
         BoardUI boardUI = new BoardUI(board);
 
-        boardUI.PrintBoard();
+        boardUI.CreateBoard();
         boardUI.spawnPiecesStarter();
 
 

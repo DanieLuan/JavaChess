@@ -13,22 +13,18 @@ import pieces.*;
 import board.*;
 
 public class BoardUI {
-
+    public static int JPANEL_WIDTH;
+    public static int JPANEL_HEIGHT;
     private final Board boardGame;
     private PieceUI pieceSelected = null;
-    private Integer pieceXIndexSave;
-    private Integer pieceYIndexSave;
-
-    //matrix of Jpanels
-    private final JPanel[][] Houses = new JPanel[8][8];
-    //generate Jframe
+    private final JPanel[][] Houses = new JPanel[Board.BOARD_SIZE][Board.BOARD_SIZE];
     private final JFrame frame = new JFrame();
-
+    private final LinkedList<PieceUI> pieceUIS = new LinkedList<>();
     public BoardUI(Board boardGame){
         this.boardGame = boardGame;
     }
 
-    public void PrintBoard() {
+    public void CreateBoard() {
         Color black = Color.decode("#769656");
         Color white = Color.decode("#eeeed2");
         boolean isBlack = true;
@@ -57,92 +53,67 @@ public class BoardUI {
             }
             isBlack = !isBlack;
         }
-
+        JPANEL_HEIGHT = Houses[0][0].getHeight();
+        JPANEL_WIDTH = Houses[0][0].getWidth();
         frame.setVisible(true);
 
-        mouseEvents();
-    }
+        frame.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
-    private void mouseEvents(){
-
-
-        for(int y = 0; y < 8; y++){
-            for(int x = 0; x < 8; x++){
-
-                int finalX = x;
-                int finalY = y;
-
-                Houses[x][y].addMouseMotionListener(new MouseMotionListener() {
-                    @Override
-                    public void mouseDragged(MouseEvent e) {
-                        if(pieceSelected != null){
-                            System.out.println("mexendo na peça " + pieceSelected);
-
-                            pieceXIndexSave = finalX;
-                            pieceYIndexSave = finalY;
-
-                            clearImageLabel(finalX,finalY);
-                            frame.repaint();
-
-                            ImageIcon pieceImage = imageFromPiece(pieceSelected);
-
-                        }
-                    }
-
-                    @Override
-                    public void mouseMoved(MouseEvent e) {
-
-                    }
-                });
-
-                Houses[x][y].addMouseListener(new MouseListener() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-
-                    }
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        for(Piece p : boardGame.piecesInGame){
-                            if(p.getPosX() == finalX && p.getPosY() == finalY){
-                                System.out.println(p);
-                                pieceSelected = p;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-                        if(pieceSelected != null){
-                            if(validMove()){
-                                System.out.println("JAJA");
-                            } else {
-                                spawnPiece(pieceSelected, pieceXIndexSave, pieceYIndexSave);
-                                frame.repaint();
-                            }
-                        }
-                        pieceSelected = null;
-                        pieceXIndexSave = null;
-                        pieceYIndexSave = null;
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-
-                    }
-                });
             }
-        }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                int xBoard = (x/100);
+                int yBoard = 7-(y/100);
+                System.out.println("(" + xBoard + "," + yBoard + ")");
+                for (PieceUI pieceUI : pieceUIS) {
+                    if (pieceUI.getCoordUIX() == xBoard && pieceUI.getCoordUIY() == yBoard) {
+                        pieceSelected = pieceUI;
+                        System.out.println(pieceSelected);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        frame.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (pieceSelected != null){
+                    //delete current jpanel icon image
+                    Houses[pieceSelected.getCoordUIX()][pieceSelected.getCoordUIY()].removeAll();
+
+                }
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+
+            }
+        });
     }
 
     private boolean validMove() {
         //implementar!!! (obviamente) nao nessa classe
-        return false;
+        return true;
     }
 
     public void clearImageLabel(int x, int y){
@@ -151,16 +122,16 @@ public class BoardUI {
 
     public void spawnPiecesStarter(){
         for(Piece p : boardGame.piecesInGame){
-            spawnPiece(p, p.getPosX(), p.getPosY());
+            spawnPiece(p,p.getPosX(),p.getPosY());
         }
     }
 
     public void spawnPiece(Piece piece,int x,int y){
+        PieceUI pieceUi = new PieceUI(piece, JPANEL_WIDTH*piece.getPosX(), JPANEL_HEIGHT*piece.getPosY());
+        pieceUIS.add(pieceUi);
+
         JLabel jPiece = new JLabel();
-
-        ImageIcon pieceImage = imageFromPiece(piece);
-
-        jPiece.setIcon(pieceImage);
+        jPiece.setIcon(pieceUi.getPieceImage());
 
         Houses[x][y].add(jPiece);
         frame.setVisible(true);
@@ -168,18 +139,5 @@ public class BoardUI {
 
     }
 
-    private ImageIcon imageFromPiece(Piece piece){
-        ImageIcon pieceImage = new ImageIcon(piece.getImagePath());
-        pieceImage = pieceImageResize(pieceImage);
-        return pieceImage;
-    }
-
-    public ImageIcon pieceImageResize(ImageIcon pieceImage){
-        Image imageIconConverted = pieceImage.getImage();
-        Image imageResized = imageIconConverted.getScaledInstance(Houses[0][0].getWidth(),Houses[0][0].getHeight(), Image.SCALE_SMOOTH);
-        pieceImage = new ImageIcon(imageResized);
-
-        return pieceImage;
-    }
 
 }

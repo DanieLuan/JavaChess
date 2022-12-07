@@ -3,13 +3,12 @@ package pieces;
 import util.Color;
 import util.Type;
 
-import java.util.LinkedList;
-
 public abstract class Piece {
 
     private Color color;
     private Type type;
     private int posX;
+
     private int posY;
 
     //abstract public void move();
@@ -80,6 +79,6 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return type + " " + color;
+        return color + " " + type + " (" + posX + ", " + posY + ")";
     }
 }
