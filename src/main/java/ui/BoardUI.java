@@ -104,7 +104,7 @@ public class BoardUI {
                         Houses[xBoard][yBoard].add(pieceSelected.getPieceLabel());
                         Houses[xBoard][yBoard].revalidate();
                         Houses[xBoard][yBoard].repaint();
-                        //remove old piece location
+
 
                     }
                     else{
@@ -120,7 +120,7 @@ public class BoardUI {
                             Houses[xBoard][yBoard].add(pieceSelected.getPieceLabel());
                             Houses[xBoard][yBoard].revalidate();
                             Houses[xBoard][yBoard].repaint();
-                            //remove old piece location
+
 
                         }
 
@@ -145,14 +145,16 @@ public class BoardUI {
         frame.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (pieceSelected != null){
-                    JPanel pn = new JPanel(){
-                        @Override
-                        public void paint(Graphics g) {
+                int x = e.getX();
+                int y = e.getY();
 
-                            g.drawImage(pieceSelected.getPieceImage().getImage(), e.getX(), e.getY(), this);
-                        }
-                    };
+                if (pieceSelected != null){
+                    JLabel pieceRenderMouse = new JLabel(pieceSelected.getPieceImage());
+                    pieceRenderMouse.setLocation(x,y);
+
+                    frame.revalidate();
+                    frame.repaint();
+
                 }
             }
 
