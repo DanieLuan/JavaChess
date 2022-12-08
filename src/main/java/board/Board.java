@@ -110,6 +110,7 @@ public class Board {
                     }
                 } else {
                     piece.move(posXEnd, posYEnd);
+                    //piecesInGame.remove(getPieceInPos(posXStart, posYStart));
                     return true;
                 }
             }

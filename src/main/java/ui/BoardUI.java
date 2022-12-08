@@ -52,6 +52,7 @@ public class BoardUI {
                 Houses[x][y].setBackground(desiredColor);
                 Houses[x][y].setBounds(100 * x,700-(100 * y),100,100);
                 frame.add(Houses[x][y]);
+
             }
             isBlack = !isBlack;
         }
@@ -77,6 +78,9 @@ public class BoardUI {
                         pieceSelectedXPos = xBoard;
                         pieceSelectedYPos = yBoard;
                         System.out.println(pieceSelected);
+                        Houses[xBoard][yBoard].removeAll();
+                        Houses[xBoard][yBoard].revalidate();
+                        Houses[xBoard][yBoard].repaint();
                         break;
                     }
                 }
@@ -100,6 +104,8 @@ public class BoardUI {
                         Houses[xBoard][yBoard].add(pieceSelected.getPieceLabel());
                         Houses[xBoard][yBoard].revalidate();
                         Houses[xBoard][yBoard].repaint();
+                        //remove old piece location
+
                     }
                     else{
                         if(!boardGame.isEnemy(xBoard, yBoard, pieceSelected)){
@@ -114,6 +120,8 @@ public class BoardUI {
                             Houses[xBoard][yBoard].add(pieceSelected.getPieceLabel());
                             Houses[xBoard][yBoard].revalidate();
                             Houses[xBoard][yBoard].repaint();
+                            //remove old piece location
+
                         }
 
                     }
