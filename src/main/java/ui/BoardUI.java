@@ -2,17 +2,17 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.JPanel;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.LinkedList;
 
 import pieces.*;
 import board.*;
 
 public class BoardUI {
+
+
     public static int JPANEL_WIDTH;
     public static int JPANEL_HEIGHT;
     private final Board boardGame;
@@ -26,10 +26,33 @@ public class BoardUI {
         this.boardGame = boardGame;
     }
 
+
     public void CreateBoard() {
         Color black = Color.decode("#769656");
         Color white = Color.decode("#eeeed2");
         boolean isBlack = true;
+
+        //teste glasspaenl
+        JPanel glassPanel = new JPanel();
+        glassPanel.setOpaque(false);
+        glassPanel.setBounds(0,0,100,100);
+
+
+        frame.add(glassPanel);
+        frame.revalidate();
+        frame.repaint();
+
+        //teste glasspaenl
+
+
+
+        //test Mouse Piece Render
+        JLabel pieceRenderMouse = new JLabel();
+        pieceRenderMouse.setIcon(null);
+        glassPanel.add(pieceRenderMouse);
+        //test Mouse Piece Render
+
+
 
         //generate chessBoard
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,6 +81,14 @@ public class BoardUI {
         }
         JPANEL_HEIGHT = Houses[0][0].getHeight();
         JPANEL_WIDTH = Houses[0][0].getWidth();
+
+
+
+
+
+
+
+
         frame.setVisible(true);
 
         frame.addMouseListener(new MouseListener() {
@@ -68,6 +99,8 @@ public class BoardUI {
 
             @Override
             public void mousePressed(MouseEvent e) {
+
+
                 int x = e.getX();
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
@@ -78,7 +111,10 @@ public class BoardUI {
                         pieceSelectedXPos = xBoard;
                         pieceSelectedYPos = yBoard;
                         System.out.println(pieceSelected);
+                        pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
+                        glassPanel.setBounds(x -50,y  -100,100,100);
                         Houses[xBoard][yBoard].removeAll();
+
                         Houses[xBoard][yBoard].revalidate();
                         Houses[xBoard][yBoard].repaint();
                         break;
@@ -89,6 +125,7 @@ public class BoardUI {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                pieceRenderMouse.setIcon(null);
                 int x = e.getX();
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
@@ -113,6 +150,7 @@ public class BoardUI {
                             Houses[pieceSelectedXPos][pieceSelectedYPos].add(pieceSelected.getPieceLabel());
                             Houses[pieceSelectedXPos][pieceSelectedYPos].revalidate();
                             Houses[pieceSelectedXPos][pieceSelectedYPos].repaint();
+
                         } else {
                             System.out.println("Movimento valido : comer peça inimiga");
                             boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
@@ -145,12 +183,17 @@ public class BoardUI {
         frame.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
+
+                int x = e.getX() - 50;
+                int y = e.getY() - 100;
 
                 if (pieceSelected != null){
-                    JLabel pieceRenderMouse = new JLabel(pieceSelected.getPieceImage());
-                    pieceRenderMouse.setLocation(x,y);
+                    pieceRenderMouse.setLocation(100,100);
+                    pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
+                    glassPanel.setBounds(x,y,100,100);
+
+
+
 
                     frame.revalidate();
                     frame.repaint();
