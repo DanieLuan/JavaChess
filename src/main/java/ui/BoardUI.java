@@ -44,15 +44,11 @@ public class BoardUI {
 
         //teste glasspaenl
 
-
-
         //test Mouse Piece Render
         JLabel pieceRenderMouse = new JLabel();
         pieceRenderMouse.setIcon(null);
         glassPanel.add(pieceRenderMouse);
         //test Mouse Piece Render
-
-
 
         //generate chessBoard
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,13 +78,6 @@ public class BoardUI {
         JPANEL_HEIGHT = Houses[0][0].getHeight();
         JPANEL_WIDTH = Houses[0][0].getWidth();
 
-
-
-
-
-
-
-
         frame.setVisible(true);
 
         frame.addMouseListener(new MouseListener() {
@@ -99,8 +88,6 @@ public class BoardUI {
 
             @Override
             public void mousePressed(MouseEvent e) {
-
-
                 int x = e.getX();
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
@@ -115,12 +102,10 @@ public class BoardUI {
                         glassPanel.setBounds(x -50,y  -100,100,100);
                         Houses[xBoard][yBoard].removeAll();
 
-                        Houses[xBoard][yBoard].revalidate();
-                        Houses[xBoard][yBoard].repaint();
+                        reMoveAndPaint(xBoard, yBoard);
                         break;
                     }
                 }
-
             }
 
             @Override
@@ -130,44 +115,48 @@ public class BoardUI {
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
                 int yBoard = 7-((y-39)/100);
+                if(xBoard < 0 || xBoard > 7 || yBoard < 0 || yBoard > 7){
+                    System.out.println("Invalid Move");
+                    addHousesPieceLabel(pieceSelectedXPos, pieceSelectedYPos, pieceSelected);
+                    return;
+                }
                 if(pieceSelected != null){
                     Houses[pieceSelectedXPos][pieceSelectedYPos].removeAll();
-                    Houses[xBoard][yBoard].revalidate();
-                    Houses[xBoard][yBoard].repaint();
+                    reMoveAndPaint(xBoard, yBoard);
 
                     if(!boardGame.isOccupied(xBoard, yBoard)){ //Verificar se a peça está no mesmo canto
                         System.out.println("Movimento valido : casa vazia");
                         boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
-                        Houses[xBoard][yBoard].add(pieceSelected.getPieceLabel());
-                        Houses[xBoard][yBoard].revalidate();
-                        Houses[xBoard][yBoard].repaint();
-
+                        addHousesPieceLabel(xBoard, yBoard, pieceSelected);
 
                     }
                     else{
                         if(!boardGame.isEnemy(xBoard, yBoard, pieceSelected)){
                             System.out.println("Movimento invalido : peça aliada no caminho");
-                            Houses[pieceSelectedXPos][pieceSelectedYPos].add(pieceSelected.getPieceLabel());
-                            Houses[pieceSelectedXPos][pieceSelectedYPos].revalidate();
-                            Houses[pieceSelectedXPos][pieceSelectedYPos].repaint();
+                            addHousesPieceLabel(pieceSelectedXPos, pieceSelectedYPos, pieceSelected);
 
                         } else {
                             System.out.println("Movimento valido : comer peça inimiga");
                             boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
-                            Houses[xBoard][yBoard].removeAll();
-                            Houses[xBoard][yBoard].add(pieceSelected.getPieceLabel());
-                            Houses[xBoard][yBoard].revalidate();
-                            Houses[xBoard][yBoard].repaint();
-
-
+                            removeHousesPieceLabel(xBoard, yBoard);
+                            addHousesPieceLabel(xBoard, yBoard, pieceSelected);
                         }
-
                     }
                 }
 
                 pieceSelected = null;
                 pieceSelectedXPos = -1;
                 pieceSelectedYPos = -1;
+            }
+
+            private void addHousesPieceLabel(int x, int y, PieceUI piece) {
+                Houses[x][y].add(piece.getPieceLabel());
+                reMoveAndPaint(x, y);
+            }
+
+            private void removeHousesPieceLabel(int x, int y) {
+                Houses[x][y].removeAll();
+                reMoveAndPaint(x, y);
             }
 
             @Override
@@ -192,9 +181,6 @@ public class BoardUI {
                     pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
                     glassPanel.setBounds(x,y,100,100);
 
-
-
-
                     frame.revalidate();
                     frame.repaint();
 
@@ -208,20 +194,9 @@ public class BoardUI {
         });
     }
 
-    public void removePiece(Piece piece, int x, int y){
-        Houses[x][y].removeAll();
-        boardGame.piecesInGame.remove(piece.getPiece());
-
-        frame.repaint();
-    }
-
-    private boolean validMove() {
-        //implementar!!! (obviamente) nao nessa classe
-        return true;
-    }
-
-    public void clearImageLabel(int x, int y){
-        Houses[x][y].removeAll();
+    private void reMoveAndPaint(int x, int y) {
+        Houses[x][y].revalidate();
+        Houses[x][y].repaint();
     }
 
     public void spawnPiecesStarter() {
