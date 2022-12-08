@@ -3,6 +3,10 @@ package pieces;
 import util.Color;
 import util.Type;
 
+/**
+ * Abstract Class that represent the idea of a piece.
+ */
+
 public abstract class Piece {
 
     private Color color;
@@ -11,9 +15,13 @@ public abstract class Piece {
 
     private int posY;
 
-    //abstract public void move();
-    //ver como fazer o movimento da peça seguindo as regras do jogo
-
+    /**
+     * Constructor of the Piece class.
+     * @param color
+     * @param type
+     * @param posX
+     * @param posY
+     */
     public Piece(Color color, Type type, int posX, int posY) {
         this.color = color;
         this.type = type;
@@ -73,46 +81,18 @@ public abstract class Piece {
         this.posX = posX;
     }
 
+    /**
+     * Method that checks if the piece can move to a given position.
+     * @param posX
+     * @param posY
+     */
     public void move(int posX, int posY) {
         this.posX = posX;
-        this.posY = posY;
-    }
-
-    public void setPosY(int posY) {
         this.posY = posY;
     }
 
     @Override
     public String toString() {
         return color + " " + type + " (" + posX + ", " + posY + ")";
-    }
-
-    public Piece getPiece() {
-        return this;
-    }
-
-    public char getSymbol(){
-        char symbol = ' ';
-        switch (type) {
-            case PAWN:
-                symbol = 'P';
-                break;
-            case KING:
-                symbol = 'K';
-                break;
-            case QUEEN:
-                symbol = 'Q';
-                break;
-            case BISHOP:
-                symbol = 'B';
-                break;
-            case ROOK:
-                symbol = 'R';
-                break;
-            case KNIGHT:
-                symbol = 'N';
-                break;
-        }
-        return symbol;
     }
 }

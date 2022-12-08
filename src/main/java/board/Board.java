@@ -1,11 +1,23 @@
 package board;
 
-import pieces.*;
-import util.Color;
-
 import java.util.LinkedList;
-import java.util.Optional;
-import java.util.concurrent.RecursiveTask;
+
+import pieces.Piece;
+import pieces.Bishop;
+import pieces.King;
+import pieces.Knight;
+import pieces.Pawn;
+import pieces.Queen;
+import pieces.Rook;
+import util.Color;
+import util.Type;
+
+/**
+ * Class that represent the chess board.
+ * The pieces are stored in a LinkedList of Pieces and use the
+ * ideia of sparse matrix, only storing the pieces that exists
+ * in the board.
+ */
 
 public class Board {
 
@@ -19,6 +31,9 @@ public class Board {
         createStartersPieces();
     }
 
+    /**
+     * Method that create the pieces in the start of the game.
+     */
     private void createStartersPieces(){
         Piece wPawn1 = new Pawn(util.Color.WHITE, 0, 1);
         piecesInGame.add(wPawn1);
@@ -87,6 +102,12 @@ public class Board {
         piecesInGame.add(bKing);
     }
 
+    /**
+     * Seach for a piece in the board and return it.
+     * @param x
+     * @param y
+     * @return Piece
+     */
     public Piece getPieceInPos(int x, int y){
         for (Piece piece : piecesInGame) {
             if(piece.getPosX() == x && piece.getPosY() == y){
@@ -96,28 +117,41 @@ public class Board {
         return null;
     }
 
-    public boolean movePiece(int posXStart, int posYStart, int posXEnd, int posYEnd){
+    /**
+     * Move a piece from a position to another.
+     * @param posXStart
+     * @param posYStart
+     * @param posXEnd
+     * @param posYEnd
+     * @return
+     */
+    public void movePiece(int posXStart, int posYStart, int posXEnd, int posYEnd){
         for (Piece piece : piecesInGame) {
             if(pieceExistsInPosition(posXStart, posYStart, piece)){
                 if(isOccupied(posXEnd, posYEnd)){
                     if(isEnemy(posXEnd, posYEnd, piece)){
                         piecesInGame.remove(getPieceInPos(posXEnd, posYEnd));
                         piece.move(posXEnd, posYEnd);
-                        return true;
+                        return;
                     } else {
-                        System.out.println("Você não pode se mover para uma posição ocupada por uma peça sua!");
-                        return false;
+                        return;
                     }
                 } else {
                     piece.move(posXEnd, posYEnd);
-                    //piecesInGame.remove(getPieceInPos(posXStart, posYStart));
-                    return true;
+                    removePiece(posXStart, posYStart);
+                    return;
                 }
             }
         }
-        return false;
     }
 
+    /**
+     * Check if a piece in certain position is an enemy.
+     * @param EnemyPiecePosX
+     * @param EnemyPiecePosY
+     * @param piece
+     * @return
+     */
     public boolean isEnemy(int EnemyPiecePosX, int EnemyPiecePosY, Piece piece){
         for (Piece pieceInGame : piecesInGame) {
             if(pieceExistsInPosition(EnemyPiecePosX, EnemyPiecePosY, pieceInGame)){
@@ -129,18 +163,36 @@ public class Board {
         return false;
     }
 
+    /**
+     * Check if the piece really exists in the position.
+     * @param posX
+     * @param posY
+     * @param piece
+     * @return
+     */
     public boolean pieceExistsInPosition(int posX, int posY, Piece piece) {
         return piece.getPosX() == posX && piece.getPosY() == posY;
     }
 
-    public void removePiece(int posXEnd, int posYEnd){
+    /**
+     * Remove a piece from the board in the xPos and yPos.
+     * @param posX
+     * @param posY
+     */
+    public void removePiece(int posX, int posY){
         for (Piece piece : piecesInGame) {
-            if(pieceExistsInPosition(posXEnd, posYEnd, piece)){
+            if(pieceExistsInPosition(posX, posY, piece)){
                 piecesInGame.remove(piece);
             }
         }
     }
 
+    /**
+     * Check if a position is occupied by another piece.
+     * @param posX
+     * @param posY
+     * @return
+     */
     public boolean isOccupied(int posX, int posY){
         for (Piece piece : piecesInGame) {
             if(pieceExistsInPosition(posX, posY, piece)){
@@ -149,7 +201,4 @@ public class Board {
         }
         return false;
     }
-
-
-
 }

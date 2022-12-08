@@ -8,7 +8,6 @@ public class Main {
 
         BoardUI boardUI = new BoardUI(board);
 
-        boardUI.CreateBoard();
         boardUI.spawnPiecesStarter();
 
     }
