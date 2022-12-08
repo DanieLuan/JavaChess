@@ -4,6 +4,8 @@ import pieces.*;
 import util.Color;
 
 import java.util.LinkedList;
+import java.util.Optional;
+import java.util.concurrent.RecursiveTask;
 
 public class Board {
 
@@ -84,6 +86,69 @@ public class Board {
         Piece bKing = new King(util.Color.BLACK, 4, 7);
         piecesInGame.add(bKing);
     }
+
+    public Piece getPieceInPos(int x, int y){
+        for (Piece piece : piecesInGame) {
+            if(piece.getPosX() == x && piece.getPosY() == y){
+                return piece;
+            }
+        }
+        return null;
+    }
+
+    public boolean movePiece(int posXStart, int posYStart, int posXEnd, int posYEnd){
+        for (Piece piece : piecesInGame) {
+            if(pieceExistsInPosition(posXStart, posYStart, piece)){
+                if(isOccupied(posXEnd, posYEnd)){
+                    if(isEnemy(posXEnd, posYEnd, piece)){
+                        piecesInGame.remove(getPieceInPos(posXEnd, posYEnd));
+                        piece.move(posXEnd, posYEnd);
+                        return true;
+                    } else {
+                        System.out.println("Você não pode se mover para uma posição ocupada por uma peça sua!");
+                        return false;
+                    }
+                } else {
+                    piece.move(posXEnd, posYEnd);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isEnemy(int EnemyPiecePosX, int EnemyPiecePosY, Piece piece){
+        for (Piece pieceInGame : piecesInGame) {
+            if(pieceExistsInPosition(EnemyPiecePosX, EnemyPiecePosY, pieceInGame)){
+                if(pieceInGame.getColor() != piece.getColor()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean pieceExistsInPosition(int posX, int posY, Piece piece) {
+        return piece.getPosX() == posX && piece.getPosY() == posY;
+    }
+
+    public void removePiece(int posXEnd, int posYEnd){
+        for (Piece piece : piecesInGame) {
+            if(pieceExistsInPosition(posXEnd, posYEnd, piece)){
+                piecesInGame.remove(piece);
+            }
+        }
+    }
+
+    public boolean isOccupied(int posX, int posY){
+        for (Piece piece : piecesInGame) {
+            if(pieceExistsInPosition(posX, posY, piece)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 }

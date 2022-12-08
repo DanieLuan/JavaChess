@@ -73,6 +73,11 @@ public abstract class Piece {
         this.posX = posX;
     }
 
+    public void move(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+    }
+
     public void setPosY(int posY) {
         this.posY = posY;
     }
@@ -80,5 +85,34 @@ public abstract class Piece {
     @Override
     public String toString() {
         return color + " " + type + " (" + posX + ", " + posY + ")";
+    }
+
+    public Piece getPiece() {
+        return this;
+    }
+
+    public char getSymbol(){
+        char symbol = ' ';
+        switch (type) {
+            case PAWN:
+                symbol = 'P';
+                break;
+            case KING:
+                symbol = 'K';
+                break;
+            case QUEEN:
+                symbol = 'Q';
+                break;
+            case BISHOP:
+                symbol = 'B';
+                break;
+            case ROOK:
+                symbol = 'R';
+                break;
+            case KNIGHT:
+                symbol = 'N';
+                break;
+        }
+        return symbol;
     }
 }

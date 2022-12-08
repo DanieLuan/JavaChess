@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Board board = new Board();
 
         BoardUI boardUI = new BoardUI(board);

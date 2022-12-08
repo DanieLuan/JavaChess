@@ -41,6 +41,11 @@ public class PieceUI extends Piece{
         return pieceImage;
     }
 
+    public JLabel getPieceLabel(){
+        JLabel pieceLabel = new JLabel(this.getPieceImage());
+        return pieceLabel;
+    }
+
     public int getCoordUIX() {
         return coordUIX;
     }
@@ -58,7 +63,8 @@ public class PieceUI extends Piece{
     }
     @Override
     public String toString() {
-        return this.getColor() + " " + this.getType() + " (" + convertCoordXToChar() + ", " + this.getPosY() + ")";
+        return this.getColor() + " " + this.getType() + " (" + convertCoordXToChar() + ", " + (this.getPosY()+1) + ")";
     }
+
 
 }
