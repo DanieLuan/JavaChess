@@ -40,11 +40,7 @@ public class BoardUI {
      */
     public BoardUI(Board boardGame) {
         this.boardGame = boardGame;
-        //
-
-
-
-        //
+        playStartGamePieceSFX();
 
 
         // Glass Panel to put the Label of the mouse
