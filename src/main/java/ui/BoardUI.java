@@ -32,16 +32,19 @@ public class BoardUI {
     public BoardUI(Board boardGame) {
         this.boardGame = boardGame;
 
+
+
+
+
+        // Glass Panel to put the Label of the mouse
         JPanel glassPanel = new JPanel();
         glassPanel.setOpaque(false);
         glassPanel.setBounds(0,0,100,100);
-
-
         frame.add(glassPanel);
         frame.revalidate();
         frame.repaint();
-
-        JLabel pieceRenderMouse = new JLabel(); // Label to render the piece anchored in the mouse
+        // Label to render the piece anchored in the mouse
+        JLabel pieceRenderMouse = new JLabel();
         pieceRenderMouse.setIcon(null);
         glassPanel.add(pieceRenderMouse);
 
@@ -52,7 +55,7 @@ public class BoardUI {
         frame.setResizable(false);
 
         //generate Squares
-
+        Color yellowHighlight = Color.decode("#FFFF00");
         Color black = Color.decode("#769656");
         Color white = Color.decode("#eeeed2");
         boolean isBlack = true;
@@ -93,6 +96,7 @@ public class BoardUI {
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
                 int yBoard = 7-((y-39)/100);
+                boardGameUI[xBoard][yBoard].setBackground(yellowHighlight);
                 for (Piece p : boardGame.piecesInGame) {
                     if (p.getPosX() == xBoard && p.getPosY() == yBoard) {
                         pieceSelected = new PieceUI(p, x, y);
