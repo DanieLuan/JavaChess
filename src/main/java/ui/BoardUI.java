@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 
 
 import pieces.*;
@@ -30,6 +31,8 @@ public class BoardUI {
     private final Board boardGame;
     private PieceUI pieceSelected = null;
     private int pieceSelectedXPos;
+
+
     private int pieceSelectedYPos;
     private final JPanel[][] boardGameUI = new JPanel[Board.BOARD_SIZE][Board.BOARD_SIZE];
     private final JFrame frame = new JFrame();
@@ -94,6 +97,9 @@ public class BoardUI {
                 for (Piece p : boardGame.piecesInGame) {
                     if (p.getPosX() == xBoard && p.getPosY() == yBoard) {
                         pieceSelected = new PieceUI(p, x, y);
+
+                        //aq
+
                         if(pieceSelected != null){
                             highlightSpot(xBoard,yBoard,blackHighlight,whiteHighlight);
                         }
@@ -101,6 +107,11 @@ public class BoardUI {
                         pieceSelectedYPos = yBoard;
 
                         System.out.println(pieceSelected);
+                        if (preventWrongTurnMove(xBoard,yBoard)){
+                            return;
+                        }
+
+
 
                         pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
                         glassPanel.setBounds(x -50,y  -100,100,100);
@@ -130,11 +141,14 @@ public class BoardUI {
                     addBoardGamePieceLabel(pieceSelectedXPos, pieceSelectedYPos, pieceSelected);
                     return;
                 }
+
                 if(pieceSelected != null){
 
                     boardGameUI[pieceSelectedXPos][pieceSelectedYPos].removeAll();
+                    if (preventWrongTurnMove(xBoard,yBoard)){
+                        return;
+                    }
                     reMoveAndPaint(xBoard, yBoard);
-
                     if(!boardGame.isOccupied(xBoard, yBoard)){ //Verificar se a peça está no mesmo canto
                         System.out.println("Movimento valido : casa vazia");
                         boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
@@ -144,8 +158,12 @@ public class BoardUI {
                     }
                     else{
                         if(!boardGame.isEnemy(xBoard, yBoard, pieceSelected)){
+                            if(xBoard == pieceSelected.getPosX() && yBoard == pieceSelected.getPosY()){
+                            }
+                            else{
+                                System.out.println("Movimento invalido : peça aliada no caminho");
+                            }
                             boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
-                            System.out.println("Movimento invalido : peça aliada no caminho");
                             addBoardGamePieceLabel(pieceSelectedXPos, pieceSelectedYPos, pieceSelected);
                         } else {
                             System.out.println("Movimento valido : comer peça inimiga");
@@ -156,8 +174,10 @@ public class BoardUI {
                             highlightSpot(xBoard,yBoard,blackHighlight,whiteHighlight);
                         }
                     }
-                } else {
-                    System.out.println("Invalid Move - No piece selected");
+                }
+                else {
+
+
                 }
 
                 pieceSelected = null;
@@ -284,6 +304,29 @@ public class BoardUI {
         boardGameUI[x][y].revalidate();
         boardGameUI[x][y].repaint();
     }
+    private boolean preventWrongTurnMove(int x,int y){
+        if(boardGame.isBlackTurn){
+            if(pieceSelected.getColor() == util.Color.WHITE){
+                boardGameUI[x][y].add(pieceSelected.getPieceLabel());
+                reMoveAndPaint(x, y);
+                pieceSelected = null;
+                return true;
+            }else{
+
+            }
+        }
+        else{
+            if(pieceSelected.getColor() == util.Color.BLACK){
+                boardGameUI[pieceSelectedXPos][pieceSelectedYPos].add(pieceSelected.getPieceLabel());
+                reMoveAndPaint(x, y);
+                pieceSelected = null;
+                return true;
+            }else{
+
+            }
+        }
+        return false;
+    }
 
     /**
      * Receives a Piece and puts it in the BoardGame UI respective position.
@@ -306,7 +349,6 @@ public class BoardUI {
         File soundFilePath = new File("resources/sfx/move-self.wav");
 
         try {
-            System.out.println("ahaha");
             AudioInputStream audio = AudioSystem.getAudioInputStream(soundFilePath);
             Clip clip = AudioSystem.getClip();
             clip.open(audio);

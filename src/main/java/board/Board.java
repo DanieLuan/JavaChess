@@ -12,6 +12,7 @@ import pieces.Rook;
 import util.Color;
 import util.Type;
 
+import game.GameRules;
 /**
  * Class that represent the chess board.
  * The pieces are stored in a LinkedList of Pieces and use the
@@ -25,6 +26,8 @@ public class Board {
 
     public LinkedList<Piece> piecesInGame;
 
+    public boolean isBlackTurn = false;
+    GameRules rules =  new GameRules();
     public Board(){
         piecesInGame = new LinkedList<>();
 
@@ -125,24 +128,44 @@ public class Board {
      * @param posYEnd
      * @return
      */
-    public void movePiece(int posXStart, int posYStart, int posXEnd, int posYEnd){
+    public boolean movePiece(int posXStart, int posYStart, int posXEnd, int posYEnd){
         for (Piece piece : piecesInGame) {
             if(pieceExistsInPosition(posXStart, posYStart, piece)){
+
+
+                if(isBlackTurn){
+                    if(getPieceInPos(posXStart, posYStart).getColor() == Color.WHITE){
+                        return false;
+                    }else{
+
+                    }
+                }
+                else{
+                    if(getPieceInPos(posXStart, posYStart).getColor() == Color.BLACK){
+                        return false;
+                    }else{
+
+                    }
+                }
+
                 if(isOccupied(posXEnd, posYEnd)){
                     if(isEnemy(posXEnd, posYEnd, piece)){
                         piecesInGame.remove(getPieceInPos(posXEnd, posYEnd));
                         piece.move(posXEnd, posYEnd);
-                        return;
+                        isBlackTurn = !isBlackTurn;
+                        return true;
                     } else {
-                        return;
+                        return false;
                     }
                 } else {
                     piece.move(posXEnd, posYEnd);
+                    isBlackTurn = !isBlackTurn;
                     removePiece(posXStart, posYStart);
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     /**
