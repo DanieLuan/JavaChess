@@ -88,6 +88,7 @@ public class BoardUI {
 
             @Override
             public void mousePressed(MouseEvent e) {
+
                 int x = e.getX();
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
@@ -102,6 +103,9 @@ public class BoardUI {
 
                         pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
                         glassPanel.setBounds(x -50,y  -100,100,100);
+
+                        frame.revalidate();
+                        frame.repaint();
                         boardGameUI[xBoard][yBoard].removeAll();
 
                         reMoveAndPaint(xBoard, yBoard);
