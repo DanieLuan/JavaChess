@@ -336,5 +336,61 @@ public class BoardUI {
         }
 
     }
+    private void playCheckPieceSFX(){
+        File soundFilePath = new File("resources/sfx/check.wav");
+
+        try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFilePath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    private void playStartGamePieceSFX(){
+        File soundFilePath = new File("resources/sfx/startgame.wav");
+
+        try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFilePath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    private void playGameOverPieceSFX(){
+        File soundFilePath = new File("resources/sfx/game-over.wav");
+
+        try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFilePath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    private void playRockyPieceSFX(){
+        File soundFilePath = new File("resources/sfx/rocky.wav");
+
+        try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFilePath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 }
