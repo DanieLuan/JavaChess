@@ -66,35 +66,20 @@ public class BoardUI {
         frame.setResizable(false);
 
         //generate Squares
-        Color yellowHighlight = Color.decode("#FFFF00");
+
         Color black = Color.decode("#769656");
+        Color blackHighlight = Color.decode("#baca2b");
         Color white = Color.decode("#eeeed2");
-        boolean isBlack = true;
+        Color whiteHighlight = Color.decode("#f6f669");
+        genBackground(black,white);
 
-        for (int y = 0; y<=7;y++){
-            for (int x = 0; x<=7;x++){
-                boardGameUI[x][y] = new JPanel();
-                Color desiredColor;
-                if (isBlack){
-                    desiredColor = black;
-                }
-                else {
-                    desiredColor = white;
-                }
-                isBlack = !isBlack;
-                boardGameUI[x][y].setBackground(desiredColor);
-                boardGameUI[x][y].setBounds(100 * x,700-(100 * y),100,100);
-                frame.add(boardGameUI[x][y]);
-
-            }
-            isBlack = !isBlack;
-        }
         JPANEL_HEIGHT = boardGameUI[0][0].getHeight();
         JPANEL_WIDTH = boardGameUI[0][0].getWidth();
 
         frame.setVisible(true);
 
         frame.addMouseListener(new MouseListener() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
 
@@ -107,10 +92,15 @@ public class BoardUI {
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
                 int yBoard = 7-((y-39)/100);
-                boardGameUI[xBoard][yBoard].setBackground(yellowHighlight);
+                repaintBackground(black,white);
+
+
                 for (Piece p : boardGame.piecesInGame) {
                     if (p.getPosX() == xBoard && p.getPosY() == yBoard) {
                         pieceSelected = new PieceUI(p, x, y);
+                        if(pieceSelected != null){
+                            highlightSpot(xBoard,yBoard,blackHighlight,whiteHighlight);
+                        }
                         pieceSelectedXPos = xBoard;
                         pieceSelectedYPos = yBoard;
 
@@ -131,17 +121,21 @@ public class BoardUI {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+
                 pieceRenderMouse.setIcon(null);
                 int x = e.getX();
                 int y = e.getY();
                 int xBoard = ((x-16)/100);
                 int yBoard = 7-((y-39)/100);
+
+
                 if(xBoard < 0 || xBoard > 7 || yBoard < 0 || yBoard > 7){
                     System.out.println("Invalid Move - Out of board");
                     addBoardGamePieceLabel(pieceSelectedXPos, pieceSelectedYPos, pieceSelected);
                     return;
                 }
                 if(pieceSelected != null){
+
                     boardGameUI[pieceSelectedXPos][pieceSelectedYPos].removeAll();
                     reMoveAndPaint(xBoard, yBoard);
 
@@ -150,6 +144,7 @@ public class BoardUI {
                         boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
                         addBoardGamePieceLabel(xBoard, yBoard, pieceSelected);
                         playMovePieceSFX();
+                        highlightSpot(xBoard,yBoard,blackHighlight,whiteHighlight);
                     }
                     else{
                         if(!boardGame.isEnemy(xBoard, yBoard, pieceSelected)){
@@ -162,6 +157,7 @@ public class BoardUI {
                             removeBoardGamePieceLabel(xBoard, yBoard);
                             addBoardGamePieceLabel(xBoard, yBoard, pieceSelected);
                             playCapturePieceSFX();
+                            highlightSpot(xBoard,yBoard,blackHighlight,whiteHighlight);
                         }
                     }
                 } else {
@@ -199,7 +195,7 @@ public class BoardUI {
 
                 int x = e.getX() - 50;
                 int y = e.getY() - 100;
-
+                //repaintBackground(black,white);
                 if (pieceSelected != null){
                     pieceRenderMouse.setLocation(100,100);
                     pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
@@ -223,7 +219,66 @@ public class BoardUI {
             spawnPiece(p,p.getPosX(),p.getPosY());
         }
     }
+    public void genBackground(Color black,Color white){
+        boolean isBlack = true;
+        for (int y = 0; y<=7;y++){
+            for (int x = 0; x<=7;x++){
+                boardGameUI[x][y] = new JPanel();
+                Color desiredColor;
+                if (isBlack){
+                    desiredColor = black;
+                }
+                else {
+                    desiredColor = white;
+                }
+                isBlack = !isBlack;
+                boardGameUI[x][y].setBackground(desiredColor);
+                boardGameUI[x][y].setBounds(100 * x,700-(100 * y),100,100);
+                frame.add(boardGameUI[x][y]);
 
+            }
+            isBlack = !isBlack;
+        }
+    }
+    public void repaintBackground(Color black,Color white){
+        boolean isBlack = true;
+        for (int y = 0; y<=7;y++){
+            for (int x = 0; x<=7;x++){
+                Color desiredColor;
+                if (isBlack){
+                    desiredColor = black;
+                }
+                else {
+                    desiredColor = white;
+                }
+                isBlack = !isBlack;
+                boardGameUI[x][y].setBackground(desiredColor);
+                boardGameUI[x][y].setBounds(100 * x,700-(100 * y),100,100);
+            }
+            isBlack = !isBlack;
+        }
+
+    }
+    public void highlightSpot(int xBoard,int yBoard,Color blackHighlight,Color whiteHighlight){
+        if(xBoard % 2 == 0){
+            if(yBoard % 2 == 0){
+                boardGameUI[xBoard][yBoard].setBackground(blackHighlight);
+
+            }else{
+                boardGameUI[xBoard][yBoard].setBackground(whiteHighlight);
+
+            }
+        }else {
+            if(yBoard % 2 == 0){
+                boardGameUI[xBoard][yBoard].setBackground(whiteHighlight);
+
+            }else{
+                boardGameUI[xBoard][yBoard].setBackground(blackHighlight);
+
+            }
+        }
+
+    }
     /**
      * Repaint one spot of the BoardGame UI.
      * @param x X position of the spot.
