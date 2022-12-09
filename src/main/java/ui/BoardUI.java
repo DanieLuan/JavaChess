@@ -1,11 +1,20 @@
 package ui;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import javax.swing.*;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 
 import pieces.*;
 import board.*;
@@ -31,9 +40,11 @@ public class BoardUI {
      */
     public BoardUI(Board boardGame) {
         this.boardGame = boardGame;
+        //
 
 
 
+        //
 
 
         // Glass Panel to put the Label of the mouse
@@ -138,19 +149,19 @@ public class BoardUI {
                         System.out.println("Movimento valido : casa vazia");
                         boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
                         addBoardGamePieceLabel(xBoard, yBoard, pieceSelected);
-
+                        playMovePieceSFX();
                     }
                     else{
                         if(!boardGame.isEnemy(xBoard, yBoard, pieceSelected)){
                             boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
                             System.out.println("Movimento invalido : peça aliada no caminho");
                             addBoardGamePieceLabel(pieceSelectedXPos, pieceSelectedYPos, pieceSelected);
-
                         } else {
                             System.out.println("Movimento valido : comer peça inimiga");
                             boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, xBoard, yBoard);
                             removeBoardGamePieceLabel(xBoard, yBoard);
                             addBoardGamePieceLabel(xBoard, yBoard, pieceSelected);
+                            playCapturePieceSFX();
                         }
                     }
                 } else {
@@ -240,6 +251,35 @@ public class BoardUI {
         frame.repaint();
 
     }
+    private void playMovePieceSFX(){
+        File soundFilePath = new File("resources/sfx/move-self.wav");
 
+        try {
+            System.out.println("ahaha");
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFilePath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    private void playCapturePieceSFX(){
+        File soundFilePath = new File("resources/sfx/capture.wav");
+
+        try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(soundFilePath);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 }
