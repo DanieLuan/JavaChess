@@ -35,9 +35,11 @@ public class BoardUI {
     private PieceUI pieceSelected = null;
     private int pieceSelectedXPos;
     private int pieceSelectedYPos;
-    private final JPanel[][] boardGameUI = new JPanel[Board.BOARD_SIZE][Board.BOARD_SIZE];
+    private final JLayeredPane[][] boardGameUI = new JLayeredPane[Board.BOARD_SIZE][Board.BOARD_SIZE];
     private final JFrame boardGameChessFrame = new JFrame();
-    private static JPanel glassPanel;
+    private static JLayeredPane glassPanel;
+
+    private static JPanel pickLayout = new JPanel() ;
     private static JLabel pieceRenderMouse;
     private  static  JLabel[] numbersLabelBackground = new JLabel[Board.BOARD_SIZE];
     private  static  JLabel[] lettersLabelBackground = new JLabel[Board.BOARD_SIZE];
@@ -54,8 +56,10 @@ public class BoardUI {
         playStartGamePieceSFX();
 
         // Glass Panel to put the Label of the mouse
-        glassPanel = new JPanel();
+        glassPanel = new JLayeredPane();
         glassPanel.setOpaque(false);
+        glassPanel.setLayout(pickLayout.getLayout());
+        glassPanel.highestLayer();
         glassPanel.setBounds(0,0,100,100);
 
         boardGameChessFrame.add(glassPanel);
@@ -119,13 +123,17 @@ public class BoardUI {
         boolean isBlack = true;
         for (int y = 0; y<=7;y++){
             for (int x = 0; x<=7;x++){
-                boardGameUI[x][y] = new JPanel();
+                boardGameUI[x][y] = new JLayeredPane();
+                boardGameUI[x][y].setLayout(pickLayout.getLayout());
                 if (isBlack){
                     boardGameUI[x][y].setBackground(black);
                 } else {
                     boardGameUI[x][y].setBackground(white);
                 }
                 isBlack = !isBlack;
+                boardGameUI[x][y].lowestLayer();
+                boardGameUI[x][y].setOpaque(true);
+
                 boardGameUI[x][y].setBounds(100 * x,700-(100 * y), 100, 100);
                 boardGameChessFrame.add(boardGameUI[x][y]);
             }
@@ -371,6 +379,8 @@ public class BoardUI {
         jPiece.setIcon(pieceUi.getPieceImage());
 
         boardGameUI[spotPosX][spotPosY].add(jPiece);
+        boardGameUI[spotPosX][spotPosY].moveToFront(jPiece);
+
         boardGameChessFrame.setVisible(true);
         boardGameChessFrame.repaint();
     }
