@@ -94,7 +94,7 @@ public class BoardUI {
         }
     }
     public void changeIconFrame(){
-        ImageIcon img = new ImageIcon("resources/pawn_white_icon.png");
+        ImageIcon img = new ImageIcon("resources/pawn_icon.png");
         JTextField myTitle = myTitle = new JTextField("JavaChess");
         boardGameChessFrame.setTitle(myTitle.getText());
         boardGameChessFrame.setIconImage(img.getImage());
