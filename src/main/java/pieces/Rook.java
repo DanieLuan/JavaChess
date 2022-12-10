@@ -21,6 +21,5 @@ public class Rook extends Piece{
         super(color, Type.ROOK, posX, posY);
     }
 
-
-    //todo: implementar o movimento da torre
+    //TODO: implementar o movimento da torre
 }

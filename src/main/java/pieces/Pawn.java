@@ -22,5 +22,5 @@ public class Pawn extends Piece{
         super(color, Type.PAWN, posX, posY);
     }
 
-    //todo: implementar o movimento do peão
+    //TODO: implementar o movimento do peão
 }

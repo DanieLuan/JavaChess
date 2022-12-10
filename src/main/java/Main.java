@@ -1,3 +1,4 @@
+import game.Player;
 import ui.*;
 import board.*;
 

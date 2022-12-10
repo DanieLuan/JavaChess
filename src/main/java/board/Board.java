@@ -25,9 +25,8 @@ public class Board {
     public static final int BOARD_SIZE = 8;
 
     public LinkedList<Piece> piecesInGame;
+    public GameRules rules =  new GameRules();
 
-    public boolean isBlackTurn = false;
-    GameRules rules =  new GameRules();
     public Board(){
         piecesInGame = new LinkedList<>();
 
@@ -122,6 +121,9 @@ public class Board {
 
     /**
      * Move a piece from a position to another.
+     * 2 Movimentos possíveis:
+     *  1 - Movimento para casa vazia
+     *  2 - Movimento para casa ocupado
      * @param posXStart
      * @param posYStart
      * @param posXEnd
@@ -131,36 +133,19 @@ public class Board {
     public boolean movePiece(int posXStart, int posYStart, int posXEnd, int posYEnd){
         for (Piece piece : piecesInGame) {
             if(pieceExistsInPosition(posXStart, posYStart, piece)){
-
-
-                if(isBlackTurn){
-                    if(getPieceInPos(posXStart, posYStart).getColor() == Color.WHITE){
-                        return false;
-                    }else{
-
-                    }
-                }
-                else{
-                    if(getPieceInPos(posXStart, posYStart).getColor() == Color.BLACK){
-                        return false;
-                    }else{
-
-                    }
-                }
-
                 if(isOccupied(posXEnd, posYEnd)){
                     if(isEnemy(posXEnd, posYEnd, piece)){
                         piecesInGame.remove(getPieceInPos(posXEnd, posYEnd));
                         piece.move(posXEnd, posYEnd);
-                        isBlackTurn = !isBlackTurn;
+                        rules.changeTurn();
                         return true;
                     } else {
                         return false;
                     }
                 } else {
                     piece.move(posXEnd, posYEnd);
-                    isBlackTurn = !isBlackTurn;
                     removePiece(posXStart, posYStart);
+                    rules.changeTurn();
                     return true;
                 }
             }

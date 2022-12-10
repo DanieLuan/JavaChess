@@ -22,5 +22,5 @@ public class Bishop extends Piece {
         super(color, Type.BISHOP, posX, posY);
     }
 
-    //todo: implementar o movimento do bispo
+    //TODO: implementar o movimento do bispo
 }

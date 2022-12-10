@@ -1,16 +1,10 @@
 package game;
 
 public class Player {
-    private String name;
     private int score;
 
-    public Player(String name) {
-        this.name = name;
+    public Player() {
         this.score = 0;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getScore() {

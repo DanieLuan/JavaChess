@@ -21,5 +21,5 @@ public class Queen extends Piece{
         super(color, Type.QUEEN, posX, posY);
     }
 
-    //todo: implementar o movimento da rainha
+    //TODO: implementar o movimento da rainha
 }

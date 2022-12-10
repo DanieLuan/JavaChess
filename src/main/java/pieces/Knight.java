@@ -23,5 +23,5 @@ public class Knight extends Piece {
         super(color, Type.KNIGHT, posX, posY);
     }
 
-    //todo: implementar o movimento do cavalo
+    //TODO: implementar o movimento do cavalo
 }

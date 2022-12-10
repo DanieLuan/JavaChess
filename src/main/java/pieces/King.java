@@ -21,5 +21,5 @@ public class King extends Piece{
         super(color, Type.KING, posX, posY);
     }
 
-    //todo: implementar o movimento do rei
+    //TODO: implementar o movimento do rei
 }
