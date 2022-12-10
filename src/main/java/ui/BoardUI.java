@@ -39,6 +39,8 @@ public class BoardUI {
     private final JFrame boardGameChessFrame = new JFrame();
     private static JPanel glassPanel;
     private static JLabel pieceRenderMouse;
+    private  static  JLabel[] numbersLabelBackground = new JLabel[Board.BOARD_SIZE];
+    private  static  JLabel[] lettersLabelBackground = new JLabel[Board.BOARD_SIZE];
 
     /**
      * Constructor of the BoardUI class. Receive a boardGame to render using Javax Swing.
@@ -46,6 +48,9 @@ public class BoardUI {
      */
     public BoardUI(Board boardGame) {
         this.boardGame = boardGame;
+
+
+        changeIconFrame();
         playStartGamePieceSFX();
 
         // Glass Panel to put the Label of the mouse
@@ -88,7 +93,12 @@ public class BoardUI {
             spawnPiece(p,p.getPosX(),p.getPosY());
         }
     }
-
+    public void changeIconFrame(){
+        ImageIcon img = new ImageIcon("resources/pawn_white_icon.png");
+        JTextField myTitle = myTitle = new JTextField("JavaChess");
+        boardGameChessFrame.setTitle(myTitle.getText());
+        boardGameChessFrame.setIconImage(img.getImage());
+    }
     /**
      * Method that adds a piece's label to the current position.
      * @param spotPosX position of the X axis of the boardGameUI.
