@@ -209,7 +209,7 @@ public class BoardUI {
                     }
                     reMoveAndPaint(spotPosX, spotPosY);
                     if(!boardGame.isOccupied(spotPosX, spotPosY)){ //Verificar se a peça está no mesmo canto                        
-                        if (boardGame.rules.moveIsValid(spotPosX, spotPosY, pieceSelected)){
+                        if (boardGame.rules.moveIsValid(spotPosX, spotPosY, boardGame.getPieceInPos(pieceSelected.getPosX(), pieceSelected.getPosY()), boardGame)){
                             System.out.println("Movimento valido");
                             boardGame.movePiece(pieceSelected.getPosX() , pieceSelected.getPosY(), spotPosX, spotPosY);
                             addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
@@ -247,7 +247,7 @@ public class BoardUI {
                                     addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
                                 }
                             } else {
-                                if (boardGame.rules.moveIsValid(spotPosX, spotPosY, pieceSelected)){
+                                if (boardGame.rules.moveIsValid(spotPosX, spotPosY, boardGame.getPieceInPos(pieceSelected.getPosX(), pieceSelected.getPosY()), boardGame)){
                                     System.out.println("Movimento valido : comer peça inimiga");
                                     boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                                     removeBoardGamePieceLabel(spotPosX, spotPosY);

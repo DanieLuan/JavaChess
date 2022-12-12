@@ -1,5 +1,6 @@
 package pieces;
 
+import board.Board;
 import util.Color;
 import util.Type;
 
@@ -22,4 +23,9 @@ public class Rook extends Piece{
     }
 
     //TODO: implementar o movimento da torre
+
+    @Override
+    public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

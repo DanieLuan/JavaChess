@@ -1,5 +1,6 @@
 package pieces;
 
+import board.Board;
 import util.Color;
 import util.Type;
 
@@ -24,4 +25,9 @@ public class Knight extends Piece {
     }
 
     //TODO: implementar o movimento do cavalo
+
+    @Override
+    public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

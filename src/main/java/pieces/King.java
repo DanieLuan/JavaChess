@@ -1,5 +1,6 @@
 package pieces;
 
+import board.Board;
 import util.Color;
 import util.Type;
 
@@ -22,4 +23,37 @@ public class King extends Piece{
     }
 
     //TODO: implementar o movimento do rei
+
+    public boolean kingValidate(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame){
+        if (spotPosX == pieceSelected.getPosX() - 1 && spotPosY == pieceSelected.getPosY() + 1){
+            return true;
+        } else if (spotPosX == pieceSelected.getPosX() && spotPosY == pieceSelected.getPosY() + 1){
+            return true;
+        } else if (spotPosX == pieceSelected.getPosX() + 1 && spotPosY == pieceSelected.getPosY() + 1){
+            return true;
+        } else if (spotPosX == pieceSelected.getPosX() - 1 && spotPosY == pieceSelected.getPosY()){
+            return true;
+        } else if (spotPosX == pieceSelected.getPosX() + 1 && spotPosY == pieceSelected.getPosY()){
+            return true;
+        } else if (spotPosX == pieceSelected.getPosX() - 1 && spotPosY == pieceSelected.getPosY() - 1){
+            return true;
+        } else if (spotPosX == pieceSelected.getPosX() && spotPosY == pieceSelected.getPosY() - 1){
+            return true;
+        } else if (spotPosX == pieceSelected.getPosX() + 1 && spotPosY == pieceSelected.getPosY() - 1){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
+        if (boardGame.isOccupied(spotPosX, spotPosY) && boardGame.isEnemy(spotPosX, spotPosY, pieceSelected) && kingValidate(spotPosX, spotPosY, pieceSelected, boardGame)){
+            return true;
+        } else if (!boardGame.isOccupied(spotPosX, spotPosY) && kingValidate(spotPosX, spotPosY, pieceSelected, boardGame)){
+            return true;
+        }
+        
+        return false;
+    }
 }

@@ -1,5 +1,7 @@
 package pieces;
 
+import board.Board;
+import ui.PieceUI;
 import util.Color;
 import util.Type;
 
@@ -90,6 +92,8 @@ public abstract class Piece {
         this.posX = posX;
         this.posY = posY;
     }
+    
+    public abstract boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame);
 
     @Override
     public String toString() {

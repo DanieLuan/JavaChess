@@ -1,5 +1,6 @@
 package ui;
 
+import board.Board;
 import javax.swing.*;
 
 import util.Color;
@@ -73,6 +74,11 @@ public class PieceUI extends Piece{
     @Override
     public String toString() {
         return this.getColor() + " " + this.getType() + " (" + convertCoordXToChar() + ", " + (this.getPosY()+1) + ")";
+    }
+
+    @Override
+    public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 

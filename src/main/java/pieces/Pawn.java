@@ -1,5 +1,6 @@
 package pieces;
 
+import board.Board;
 import ui.PieceUI;
 import util.Color;
 import util.Type;
@@ -24,14 +25,28 @@ public class Pawn extends Piece{
     }
 
     //TODO: implementar o movimento do peão
-    public boolean moveIsValid(int spotPosx, int spotPosy, PieceUI pieceSelected){
+
+    /**
+     *
+     * @param spotPosX
+     * @param spotPosY
+     * @param pieceSelected
+     * @param boardGame
+     * @return
+     */
+    @Override
+    public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame){
         if (pieceSelected.getColor() == Color.WHITE){
-            if ((pieceSelected.getPosY() == 1 && spotPosy == pieceSelected.getPosY() + 2 && spotPosx == pieceSelected.getPosX()) || (spotPosy == pieceSelected.getPosY() + 1) && spotPosx == pieceSelected.getPosX()){
-                return true;
-            }    
+            if (!boardGame.isOccupied(pieceSelected.getPosX(), pieceSelected.getPosY() + 1)){
+                if ((pieceSelected.getPosY() == 1 && spotPosY == pieceSelected.getPosY() + 2 && spotPosX == pieceSelected.getPosX() && !boardGame.isOccupied(pieceSelected.getPosX(), pieceSelected.getPosY() + 1)) || (spotPosY == pieceSelected.getPosY() + 1) && spotPosX == pieceSelected.getPosX()){
+                    return true;
+                }
+            }
         } else {
-            if ((pieceSelected.getPosY() == 6 && spotPosy == pieceSelected.getPosY() - 2 && spotPosx == pieceSelected.getPosX()) || (spotPosy == pieceSelected.getPosY() - 1) && spotPosx == pieceSelected.getPosX()){
-                return true;
+            if (!boardGame.isOccupied(pieceSelected.getPosX(), pieceSelected.getPosY() - 1)){
+                if ((pieceSelected.getPosY() == 6 && spotPosY == pieceSelected.getPosY() - 2 && spotPosX == pieceSelected.getPosX()) || (spotPosY == pieceSelected.getPosY() - 1) && spotPosX == pieceSelected.getPosX()){
+                    return true;
+                }
             }
         }
         
