@@ -23,8 +23,6 @@ public class Bishop extends Piece {
         super(color, Type.BISHOP, posX, posY);
     }
 
-    //TODO: implementar o movimento do bispo
-
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

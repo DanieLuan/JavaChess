@@ -24,10 +24,42 @@ public class Knight extends Piece {
         super(color, Type.KNIGHT, posX, posY);
     }
 
-    //TODO: implementar o movimento do cavalo
-
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(knightMoveValidator(spotPosX, spotPosY, pieceSelected)){
+            if(!boardGame.isOccupied(spotPosX, spotPosY)){
+                return true;
+            } else {
+                if(boardGame.isEnemy(spotPosX, spotPosY, pieceSelected)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
+
+    private boolean knightMoveValidator(int spotPosX, int spotPosY, Piece pieceSelected) {
+        if ((spotPosX == pieceSelected.getPosX() - 1) && (spotPosY == pieceSelected.getPosY() + 2)) {
+            return true;
+        } else if ((spotPosX == pieceSelected.getPosX() + 1) && (spotPosY == pieceSelected.getPosY() + 2)) {
+            return true;
+        } else if ((spotPosX == pieceSelected.getPosX() - 2) && (spotPosY == pieceSelected.getPosY() + 1)) {
+            return true;
+        } else if ((spotPosX == pieceSelected.getPosX() + 2) && (spotPosY == pieceSelected.getPosY() + 1)) {
+            return true;
+        } else if ((spotPosX == pieceSelected.getPosX() - 2) && (spotPosY == pieceSelected.getPosY() - 1)) {
+            return true;
+        } else if ((spotPosX == pieceSelected.getPosX() + 2) && (spotPosY == pieceSelected.getPosY() - 1)) {
+            return true;
+        } else if ((spotPosX == pieceSelected.getPosX() - 1) && (spotPosY == pieceSelected.getPosY() - 2)) {
+            return true;
+        } else if ((spotPosX == pieceSelected.getPosX() + 1) && (spotPosY == pieceSelected.getPosY() - 2)) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+
 }
