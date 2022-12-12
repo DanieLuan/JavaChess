@@ -1,6 +1,7 @@
 import game.Player;
 import ui.*;
 import board.*;
+import game.GameRules;
 
 public class Main {
 

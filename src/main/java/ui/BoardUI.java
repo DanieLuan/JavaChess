@@ -15,6 +15,7 @@ import java.io.File;
 import game.GameRules;
 import pieces.*;
 import board.*;
+import util.Type;
 
 /**
  * Class that represents the Board rendered in the UI.
@@ -158,7 +159,8 @@ public class BoardUI {
                 int spotPosX = ((mouseOnFramePosX-16)/100);
                 int spotPosY = 7-((mouseOnFramePosY-39)/100);
                 repaintBackground(black,white);
-
+                
+                //TODO: usar Board.getPieceInPos
                 for (Piece p : boardGame.piecesInGame) {
                     if (p.getPosX() == spotPosX && p.getPosY() == spotPosY) {
                         pieceSelected = new PieceUI(p, mouseOnFramePosX, mouseOnFramePosY);
@@ -206,12 +208,22 @@ public class BoardUI {
                         return;
                     }
                     reMoveAndPaint(spotPosX, spotPosY);
-                    if(!boardGame.isOccupied(spotPosX, spotPosY)){ //Verificar se a peça está no mesmo canto
-                        System.out.println("Movimento valido : casa vazia");
+                    if(!boardGame.isOccupied(spotPosX, spotPosY)){ //Verificar se a peça está no mesmo canto                        
+                        if (boardGame.rules.moveIsValid(spotPosX, spotPosY, pieceSelected)){
+                            System.out.println("Movimento valido");
+                            boardGame.movePiece(pieceSelected.getPosX() , pieceSelected.getPosY(), spotPosX, spotPosY);
+                            addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
+                            playMovePieceSFX();
+                            highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                        } else {
+                            addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
+                        }
+                        
+                        /*System.out.println("Movimento valido : casa vazia");
                         boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                         addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
                         playMovePieceSFX();
-                        highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                        highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);*/
                     }
                     else{
                         if(!boardGame.isEnemy(spotPosX, spotPosY, pieceSelected)){
@@ -223,12 +235,36 @@ public class BoardUI {
                             boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                             addBoardGamePieceLabel(pieceSelectedXPos, pieceSelectedYPos, pieceSelected);
                         } else {
-                            System.out.println("Movimento valido : comer peça inimiga");
+                            if (pieceSelected.getType() == Type.PAWN){
+                                if (boardGame.rules.pawnCaptureIsValid(spotPosX, spotPosY, pieceSelected)){
+                                    System.out.println("Movimento valido : comer peça inimiga");
+                                    boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
+                                    removeBoardGamePieceLabel(spotPosX, spotPosY);
+                                    addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
+                                    playCapturePieceSFX();
+                                    highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                                } else {
+                                    addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
+                                }
+                            } else {
+                                if (boardGame.rules.moveIsValid(spotPosX, spotPosY, pieceSelected)){
+                                    System.out.println("Movimento valido : comer peça inimiga");
+                                    boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
+                                    removeBoardGamePieceLabel(spotPosX, spotPosY);
+                                    addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
+                                    playCapturePieceSFX();
+                                    highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                                } else {
+                                    addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
+                                }
+                            }
+                            
+                            /*System.out.println("Movimento valido : comer peça inimiga");
                             boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                             removeBoardGamePieceLabel(spotPosX, spotPosY);
                             addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
                             playCapturePieceSFX();
-                            highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                            highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);*/
                         }
                     }
                 }

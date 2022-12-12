@@ -1,5 +1,11 @@
 package game;
 
+import pieces.*;
+import pieces.Piece;
+import ui.PieceUI;
+import util.Color;
+import util.Type;
+
 public class GameRules {
     private boolean isWhiteTurn;
 
@@ -16,9 +22,28 @@ public class GameRules {
         return isWhiteTurn;
     }
 
-    public boolean moveIsValid(){
-        //TODO: implementar regras de movimento
-        return true;
+    //TODO: trocar PieceUI por Piece pegado em getPieceInPos
+    public boolean moveIsValid(int spotPosX, int spotPosY, PieceUI pieceSelected){
+        if (pieceSelected.getType() == Type.PAWN){
+            Pawn piece = new Pawn(pieceSelected.getColor(), pieceSelected.getPosX(), pieceSelected.getPosY());
+            if (piece.moveIsValid(spotPosX, spotPosY, pieceSelected)){
+                return true;
+            }
+        } else if (pieceSelected.getType() == Type.KNIGHT){
+            Knight piece = new Knight(pieceSelected.getColor(), pieceSelected.getPosX(), pieceSelected.getPosY());
+            
+        }
+        
+        return false;
+    }
+    
+    public boolean pawnCaptureIsValid(int spotPosX, int spotPosY, PieceUI pieceSelected){
+        Pawn piece = new Pawn(pieceSelected.getColor(), pieceSelected.getPosX(), pieceSelected.getPosY());
+        if (piece.captureIsValid(spotPosX, spotPosY, pieceSelected)){
+            return true;
+        }
+        
+        return false;
     }
 
 
