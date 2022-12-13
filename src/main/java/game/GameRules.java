@@ -1,38 +1,48 @@
 package game;
 
 import board.Board;
+import board.Spot;
 import pieces.*;
 import pieces.Piece;
 import ui.PieceUI;
 import util.Color;
-import util.Type;
 
 public class GameRules {
-    private boolean isWhiteTurn;
-
-    public static final int BOARD_SIZE = 8;
-
-    public GameRules(){
-        isWhiteTurn = true;
-    }
-
-    public void changeTurn(){
-        isWhiteTurn = !isWhiteTurn;
-    }
-    public boolean isWhiteTurn() {
-        return isWhiteTurn;
-    }
 
     //TODO: trocar PieceUI por Piece pegado em getPieceInPos
-    public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame){
+    public static boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame){
         return pieceSelected.moveIsValid(spotPosX, spotPosY, pieceSelected, boardGame);
     }
     
-    public boolean pawnCaptureIsValid(int spotPosX, int spotPosY, PieceUI pieceSelected){
+    public static boolean pawnCaptureIsValid(int spotPosX, int spotPosY, PieceUI pieceSelected){
         Pawn piece = new Pawn(pieceSelected.getColor(), pieceSelected.getPosX(), pieceSelected.getPosY());
         return piece.captureIsValid(spotPosX, spotPosY, pieceSelected);
     }
 
+    public static boolean isKingCheked(Board board, boolean isWhiteTurn){
+        if (isWhiteTurn){
+            Color color = Color.WHITE;
+            Piece king = board.getKingPiece(color);
+            return isKingInDanger(board, color, king.getPosX(), king.getPosY());
 
-    //TODO: Implementar regras do jogo
+        } else {
+            Color color = Color.BLACK;
+            Piece king = board.getKingPiece(color);
+            return isKingInDanger(board, color, king.getPosX(), king.getPosY());
+        }
+    }
+    public static boolean isKingInDanger(Board boardGame, Color color, int kingPosX, int kingPosY){
+        for (Piece piece : boardGame.piecesInGame) {
+            if(piece.getColor() != color){
+                for(Spot spot : piece.getPossibleMoves(boardGame)){
+                    if(spot.getPosX() == kingPosX && spot.getPosY() == kingPosY){
+                        //System.out.println("King " + color + " in danger");
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

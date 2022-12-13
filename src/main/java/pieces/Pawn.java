@@ -59,8 +59,12 @@ public class Pawn extends Piece{
     public void calculatePossiblePositions(int x, int y, Board board) {
         if(this.getColor() == Color.WHITE){
             if(this.getPosY() == START_WHITE_PAWN_SPOT){
-                possibleMoves.add(new Spot(x, y+1));
-                possibleMoves.add(new Spot(x, y+2));
+                if(!board.isOccupied(this.getPosX(), this.getPosY()+1)){
+                    possibleMoves.add(new Spot(x, y+1));
+                }
+                if(!board.isOccupied(this.getPosX(), this.getPosY()+2)){
+                    possibleMoves.add(new Spot(x, y+2));
+                }
             } else {
                 if(!board.isOccupied(x, y+1)){
                     possibleMoves.add(new Spot(x, y+1));
@@ -74,8 +78,12 @@ public class Pawn extends Piece{
             }
         } else {
             if(this.getPosY() == START_BLACK_PAWN_SPOT){
-                possibleMoves.add(new Spot(x, y-1));
-                possibleMoves.add(new Spot(x, y-2));
+                if(!board.isOccupied(this.getPosX(), this.getPosY()-1)){
+                    possibleMoves.add(new Spot(x, y-1));
+                }
+                if(!board.isOccupied(this.getPosX(), this.getPosY()-2)){
+                    possibleMoves.add(new Spot(x, y-2));
+                }
             } else {
                 if(!board.isOccupied(x, y-1)){
                     possibleMoves.add(new Spot(x, y-1));

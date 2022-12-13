@@ -24,13 +24,17 @@ public class Board {
 
     public static final int BOARD_SIZE = 8;
     public LinkedList<Piece> piecesInGame;
+    private boolean isWhiteTurn = true;
+    public boolean isWhiteKingCheck;
+    public boolean isBlackKingCheck;
     public GameRules rules =  new GameRules();
 
     public Board(){
         piecesInGame = new LinkedList<>();
-
-        //createStartersPieces();
-        debugBoard();
+        isWhiteKingCheck = false;
+        isBlackKingCheck = false;
+        createStartersPieces();
+        //debugBoard();
     }
 
     /**
@@ -147,6 +151,10 @@ public class Board {
         return null;
     }
 
+    public boolean changeTurn() {
+        return isWhiteTurn = !isWhiteTurn;
+    }
+
     /**
      * Move a piece from a position to another.
      * 2 Movimentos possíveis:
@@ -165,7 +173,7 @@ public class Board {
                     if(isEnemy(posXEnd, posYEnd, piece)){
                         piecesInGame.remove(getPieceInPos(posXEnd, posYEnd));
                         piece.move(posXEnd, posYEnd);
-                        rules.changeTurn();
+                        changeTurn();
                         return true;
                     } else {
                         return false;
@@ -173,7 +181,7 @@ public class Board {
                 } else {
                     piece.move(posXEnd, posYEnd);
                     removePiece(posXStart, posYStart);
-                    rules.changeTurn();
+                    changeTurn();
                     return true;
                 }
             }
@@ -236,5 +244,19 @@ public class Board {
             }
         }
         return false;
+    }
+
+    //TODO: Implementar método para verificar se a posição onde o rei está querendo ir é segura;
+    public boolean isSpotSafe(int posX, int posY){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Piece getKingPiece(util.Color color){
+        for (Piece piece : piecesInGame) {
+            if(piece instanceof King && piece.getColor() == color){
+                return piece;
+            }
+        }
+        return null;
     }
 }

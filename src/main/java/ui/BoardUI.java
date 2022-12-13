@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import game.Game;
 import game.GameRules;
 import pieces.*;
 import board.*;
@@ -45,11 +46,14 @@ public class BoardUI {
     private final JLayeredPane[][] boardGameUI = new JLayeredPane[Board.BOARD_SIZE][Board.BOARD_SIZE];
     private final JFrame boardGameChessFrame = new JFrame();
     private static JLayeredPane glassPanel;
+    private boolean isWhiteTurn;
 
     private static JPanel pickLayout = new JPanel() ;
     private static JLabel pieceRenderMouse;
-    private  static  JLabel[] numbersLabelBackground = new JLabel[Board.BOARD_SIZE];
-    private  static  JLabel[] lettersLabelBackground = new JLabel[Board.BOARD_SIZE];
+
+    //TODO: Colocar letras e números indicando as posições do tabuleiro
+    private static JLabel[] numbersLabelBackground = new JLabel[Board.BOARD_SIZE];
+    private static JLabel[] lettersLabelBackground = new JLabel[Board.BOARD_SIZE];
 
     /**
      * Constructor of the BoardUI class. Receive a boardGame to render using Javax Swing.
@@ -57,6 +61,7 @@ public class BoardUI {
      */
     public BoardUI(Board boardGame) {
         this.boardGame = boardGame;
+        this.isWhiteTurn = true;
 
         pieceSelectedPossibleMoves = new LinkedList<>();
 
@@ -165,6 +170,7 @@ public class BoardUI {
                 int mouseOnFramePosY = e.getY();
                 int spotPosX = ((mouseOnFramePosX-16)/100);
                 int spotPosY = 7-((mouseOnFramePosY-39)/100);
+
                 repaintBackground(BLACK,WHITE);
                 removePossiblePositions(pieceSelectedPossibleMoves);
                 //TODO: usar Board.getPieceInPos
@@ -176,10 +182,15 @@ public class BoardUI {
                         pieceSelectedXPos = spotPosX;
                         pieceSelectedYPos = spotPosY;
 
-                        System.out.println(pieceSelected);
+                        if(preventKingCheck()){
+                            return;
+                        }
+
                         if (preventWrongTurnMove()){
                             return;
                         }
+
+
 
                         pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
                         glassPanel.setBounds(mouseOnFramePosX-50,mouseOnFramePosY-100, JPANEL_WIDTH, JPANEL_HEIGHT);
@@ -188,13 +199,8 @@ public class BoardUI {
                         boardGameChessFrame.repaint();
                         boardGameUI[spotPosX][spotPosY].removeAll();
 
-
-
                         pieceSelectedPossibleMoves = boardGame.getPieceInPos(pieceSelectedXPos,pieceSelectedYPos).getPossibleMoves(boardGame);
                         insertPossiblePositions(pieceSelectedPossibleMoves);
-                        for(Spot spot : pieceSelectedPossibleMoves){
-                            System.out.println(spot);
-                        }
 
                         //TODO: colocar possíveis posições onde a peça pode ir
 
@@ -221,16 +227,17 @@ public class BoardUI {
                 }
                 if(pieceSelected != null){
                     boardGameUI[pieceSelectedXPos][pieceSelectedYPos].removeAll();
-                    if (preventWrongTurnMove()){
-                        return;
-                    }
                     reMoveAndPaint(spotPosX, spotPosY);
                     if(!boardGame.isOccupied(spotPosX, spotPosY)){ //Verificar se a peça está no mesmo canto                        
                         if (boardGame.rules.moveIsValid(spotPosX, spotPosY, boardGame.getPieceInPos(pieceSelected.getPosX(), pieceSelected.getPosY()), boardGame)){
                             System.out.println("Movimento valido");
+                            isWhiteTurn = !isWhiteTurn;
+
+                            if(GameRules.isKingCheked(boardGame, isWhiteTurn)){
+                                System.out.println("Rei em cheque");
+                            }
 
                             removePossiblePositions(pieceSelectedPossibleMoves);
-
                             boardGame.movePiece(pieceSelected.getPosX() , pieceSelected.getPosY(), spotPosX, spotPosY);
                             addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
                             playMovePieceSFX();
@@ -257,10 +264,14 @@ public class BoardUI {
                         } else {
                             if (pieceSelected.getType() == Type.PAWN){
                                 if (boardGame.rules.pawnCaptureIsValid(spotPosX, spotPosY, pieceSelected)){
-
                                     //TODO: porque um tratamento difente para o peão?
-
                                     System.out.println("Movimento valido : comer peça inimiga");
+                                    isWhiteTurn = !isWhiteTurn;
+
+                                    if(GameRules.isKingCheked(boardGame, isWhiteTurn)){
+                                        System.out.println("Rei em cheque");
+                                    }
+
                                     removePossiblePositions(pieceSelectedPossibleMoves);
                                     boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                                     removeBoardGamePieceLabel(spotPosX, spotPosY);
@@ -273,6 +284,13 @@ public class BoardUI {
                             } else {
                                 if (boardGame.rules.moveIsValid(spotPosX, spotPosY, boardGame.getPieceInPos(pieceSelected.getPosX(), pieceSelected.getPosY()), boardGame)){
                                     System.out.println("Movimento valido : comer peça inimiga");
+
+                                    isWhiteTurn = !isWhiteTurn;
+
+                                    if(GameRules.isKingCheked(boardGame, isWhiteTurn)){
+                                        System.out.println("Rei em cheque");
+                                    }
+
                                     removePossiblePositions(pieceSelectedPossibleMoves);
                                     boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                                     removeBoardGamePieceLabel(spotPosX, spotPosY);
@@ -291,6 +309,16 @@ public class BoardUI {
                             playCapturePieceSFX();
                             highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);*/
                         }
+                    }
+                }
+
+                if(GameRules.isKingCheked(boardGame, isWhiteTurn)){
+                    if(isWhiteTurn){
+                        System.out.println("Rei branco em cheque");
+                        boardGame.isWhiteKingCheck = true;
+                    } else {
+                        System.out.println("Rei preto em cheque");
+                        boardGame.isBlackKingCheck = true;
                     }
                 }
                 pieceSelected = null;
@@ -408,12 +436,24 @@ public class BoardUI {
         boardGameUI[x][y].repaint();
     }
 
+    private boolean preventKingCheck(){
+        if(boardGame.isWhiteKingCheck){
+            Piece wKing = boardGame.getKingPiece(util.Color.WHITE);
+            highlightSpot(wKing.getPosX(),wKing.getPosY(),Color.RED,Color.RED);
+        }
+        if(boardGame.isBlackKingCheck){
+            Piece bKing = boardGame.getKingPiece(util.Color.BLACK);
+            highlightSpot(bKing.getPosX(),bKing.getPosY(),Color.RED,Color.RED);
+        }
+        return false;
+    }
+
     /**
      * Don't allow to move the piece of the other player's round.
      * @return false if the player is trying to move the piece of the other player's round.
      */
     private boolean preventWrongTurnMove(){
-        if(boardGame.rules.isWhiteTurn()){
+        if(isWhiteTurn){
             if(pieceSelected.getColor() != util.Color.WHITE){
                 pieceSelected = null;
                 return true;
@@ -448,6 +488,9 @@ public class BoardUI {
 
     private void insertPossiblePositions(LinkedList<Spot> positions){
         for (Spot spot : positions){
+            if(spot.getPosX() > 7 || spot.getPosX() < 0 || spot.getPosY() > 7 || spot.getPosY() < 0){
+                break;
+            }
             if(boardGame.isEnemy(spot.getPosX(), spot.getPosY(), pieceSelected)){
                 highlightSpot(spot.getPosX(), spot.getPosY(), RED_BLACK, RED_WHITE);
             } else {
@@ -461,6 +504,9 @@ public class BoardUI {
 
     private void removePossiblePositions(LinkedList<Spot> positions){
         for (Spot spot : positions){
+            if(spot.getPosX() > 7 || spot.getPosX() < 0 || spot.getPosY() > 7 || spot.getPosY() < 0){
+                break;
+            }
             if(!boardGame.isOccupied(spot.getPosX(), spot.getPosY())){
                 boardGameUI[spot.getPosX()][spot.getPosY()].removeAll();
             }

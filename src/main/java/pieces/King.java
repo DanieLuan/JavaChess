@@ -1,6 +1,7 @@
 package pieces;
 
 import board.Board;
+import board.Spot;
 import util.Color;
 import util.Type;
 
@@ -42,23 +43,23 @@ public class King extends Piece{
         } else if (spotPosX == pieceSelected.getPosX() + 1 && spotPosY == pieceSelected.getPosY() - 1){
             return true;
         }
-        
         return false;
     }
 
     @Override
     public void calculatePossiblePositions(int x, int y, Board board) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        kingValidate(x, y, this, board);
+
+
     }
 
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
-        if (boardGame.isOccupied(spotPosX, spotPosY) && boardGame.isEnemy(spotPosX, spotPosY, pieceSelected) && kingValidate(spotPosX, spotPosY, pieceSelected, boardGame)){
-            return true;
-        } else if (!boardGame.isOccupied(spotPosX, spotPosY) && kingValidate(spotPosX, spotPosY, pieceSelected, boardGame)){
-            return true;
+        for (Spot spot : this.getPossibleMoves(boardGame)) {
+            if (spotPosX == spot.getPosX() && spotPosY == spot.getPosY()){
+                return true;
+            }
         }
-        
         return false;
     }
 }
