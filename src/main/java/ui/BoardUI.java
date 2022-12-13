@@ -225,7 +225,7 @@ public class BoardUI {
                     pieceSelected = null;
                     return;
                 }
-                if(pieceSelected != null)
+                if(pieceSelected != null){
                     boardGameUI[pieceSelectedXPos][pieceSelectedYPos].removeAll();
                     reMoveAndPaint(spotPosX, spotPosY);
                     if(!boardGame.isOccupied(spotPosX, spotPosY)){ //Verificar se a peça está no mesmo canto                        
