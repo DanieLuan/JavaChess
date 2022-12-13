@@ -102,12 +102,67 @@ public abstract class Piece {
         return possibleMoves;
     }
 
-    public void linearPositions(Board board, int x, int y){
-        int startX;
-        int startY;
-        int endX;
-        int endY;
+    public void diagonalPositions(Board board, int x, int y){
+        for(int i = x, j = y; i <= 7 && j <= 7; i++, j++){
+            if(board.getPieceInPos(i, j) != this){
+                if(board.isOccupied(i, j)){
+                    if(board.isEnemy(i, j, this)){
+                        possibleMoves.add(new Spot(i, j));
+                        break;
+                    }
+                    break;
+                } else {
+                    possibleMoves.add(new Spot(i, j));
+                }
+            }
+        }
 
+        for(int i = x, j = y; i >= 0 && j <= 7; i--, j++){
+            if(board.getPieceInPos(i, j) != this){
+                if(board.isOccupied(i, j)){
+                    if(board.isEnemy(i, j, this)){
+                        possibleMoves.add(new Spot(i, j));
+                        break;
+                    }
+                    break;
+                } else {
+                    possibleMoves.add(new Spot(i, j));
+                }
+            }
+        }
+
+        for(int i = x, j = y; i >= 0 && j >= 0; i--, j--){
+            if(board.getPieceInPos(i, j) != this){
+                if(board.isOccupied(i, j)){
+                    if(board.isEnemy(i, j, this)){
+                        possibleMoves.add(new Spot(i, j));
+                        break;
+                    }
+                    break;
+                } else {
+                    possibleMoves.add(new Spot(i, j));
+                }
+            }
+        }
+
+        for(int i = x, j = y; i <= 7 && j >= 0; i++, j--){
+            if(board.getPieceInPos(i, j) != this){
+                if(board.isOccupied(i, j)){
+                    if(board.isEnemy(i, j, this)){
+                        possibleMoves.add(new Spot(i, j));
+                        break;
+                    }
+                    break;
+                } else {
+                    possibleMoves.add(new Spot(i, j));
+                }
+            }
+        }
+
+
+    }
+
+    public void linearPositions(Board board, int x, int y){
         //Itera da posição da peça até a borda inferior, ou até encontrar uma peça (se for inimigo também adiciona o spot)
         for(int i = y; i >= 0; i--){
             if(board.getPieceInPos(x, i) != this){
