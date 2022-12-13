@@ -8,3 +8,4 @@ Feito por:
 - [Murilo da Rocha](https://github.com/th3-Rocha)
 
 Boas práticas mensagens de commits: https://www.conventionalcommits.org/en/v1.0.0/
+![alt text](https://i.ibb.co/nzWxgzy/starring-night.png)
