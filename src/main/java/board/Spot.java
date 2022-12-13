@@ -29,4 +29,22 @@ public class Spot {
     public String toString() {
         return "(" + posX + ", " + posY + ")";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(obj instanceof Spot) {
+            Spot spot = (Spot) obj;
+            return spot.getPosX() == this.getPosX() && spot.getPosY() == this.getPosY();
+        }
+        return false;
+    }
+
+    public boolean equals(Spot spot) {
+        return spot.getPosX() == this.getPosX() && spot.getPosY() == this.getPosY();
+    }
+
+
 }

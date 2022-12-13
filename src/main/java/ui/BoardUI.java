@@ -43,6 +43,7 @@ public class BoardUI {
     private int pieceSelectedXPos;
     private int pieceSelectedYPos;
     private LinkedList<Spot> pieceSelectedPossibleMoves;
+    LinkedList<Spot> allKingEnemiesMovements;
     private final JLayeredPane[][] boardGameUI = new JLayeredPane[Board.BOARD_SIZE][Board.BOARD_SIZE];
     private final JFrame boardGameChessFrame = new JFrame();
     private static JLayeredPane glassPanel;
@@ -190,8 +191,6 @@ public class BoardUI {
                             return;
                         }
 
-
-
                         pieceRenderMouse.setIcon(pieceSelected.getPieceImage());
                         glassPanel.setBounds(mouseOnFramePosX-50,mouseOnFramePosY-100, JPANEL_WIDTH, JPANEL_HEIGHT);
 
@@ -200,10 +199,21 @@ public class BoardUI {
                         boardGameUI[spotPosX][spotPosY].removeAll();
 
                         pieceSelectedPossibleMoves = boardGame.getPieceInPos(pieceSelectedXPos,pieceSelectedYPos).getPossibleMoves(boardGame);
+
+                        if (pieceSelected.getType() == Type.KING){
+                            LinkedList<Spot> allKingEnemiesMovements = boardGame.getAllKingEnemiesMovements(pieceSelected.getColor());
+                            LinkedList<Spot> toRemove = new LinkedList<>();
+                            for(Spot spot : pieceSelectedPossibleMoves){
+                                for(Spot spot1 : allKingEnemiesMovements){
+                                    if(spot.getPosX() == spot1.getPosX() && spot.getPosY() == spot1.getPosY()){
+                                        toRemove.add(spot);
+                                    }
+                                }
+                            }
+                            pieceSelectedPossibleMoves.removeAll(toRemove);
+                        }
+
                         insertPossiblePositions(pieceSelectedPossibleMoves);
-
-                        //TODO: colocar possíveis posições onde a peça pode ir
-
                         reMoveAndPaint(spotPosX, spotPosY);
                         break;
                     }

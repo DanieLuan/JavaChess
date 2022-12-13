@@ -33,8 +33,8 @@ public class Board {
         piecesInGame = new LinkedList<>();
         isWhiteKingCheck = false;
         isBlackKingCheck = false;
-        createStartersPieces();
-        //debugBoard();
+        //createStartersPieces();
+        debugBoard();
     }
 
     /**
@@ -258,5 +258,15 @@ public class Board {
             }
         }
         return null;
+    }
+
+    public LinkedList<Spot> getAllKingEnemiesMovements(Color color){
+        LinkedList<Spot> allKingEnemiesMovements = new LinkedList<>();
+        for (Piece piece : piecesInGame) {
+            if(piece.getColor() != color){
+                allKingEnemiesMovements.addAll(piece.getPossibleMoves(this));
+            }
+        }
+        return allKingEnemiesMovements;
     }
 }
