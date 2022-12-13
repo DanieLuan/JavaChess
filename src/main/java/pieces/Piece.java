@@ -116,6 +116,7 @@ public abstract class Piece {
                         possibleMoves.add(new Spot(x, i));
                         break;
                     }
+                    break;
                 } else {
                     possibleMoves.add(new Spot(x, i));
                 }
@@ -130,6 +131,7 @@ public abstract class Piece {
                         possibleMoves.add(new Spot(x, i));
                         break;
                     }
+                    break;
                 } else {
                     possibleMoves.add(new Spot(x, i));
                 }
@@ -143,6 +145,7 @@ public abstract class Piece {
                         possibleMoves.add(new Spot(i, y));
                         break;
                     }
+                    break;
                 } else {
                     possibleMoves.add(new Spot(i, y));
                 }
@@ -156,6 +159,7 @@ public abstract class Piece {
                         possibleMoves.add(new Spot(i, y));
                         break;
                     }
+                    break;
                 } else {
                     possibleMoves.add(new Spot(i, y));
                 }
