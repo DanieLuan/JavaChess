@@ -1,6 +1,7 @@
 package pieces;
 
 import board.Board;
+import board.Spot;
 import util.Color;
 import util.Type;
 
@@ -22,14 +23,18 @@ public class Rook extends Piece{
         super(color, Type.ROOK, posX, posY);
     }
 
-    //TODO: implementar o movimento da torre
+    @Override
     public void calculatePossiblePositions(int x, int y, Board board){
-        linearPositions(board, x, y);
-
+        linearPositions(board, this.getPosX(), this.getPosY());
     }
 
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for(Spot spot : pieceSelected.getPossibleMoves(boardGame)){
+            if(spot.getPosX() == spotPosX && spot.getPosY() == spotPosY){
+                return true;
+            }
+        }
+        return false;
     }
 }

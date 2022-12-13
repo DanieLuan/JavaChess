@@ -29,7 +29,8 @@ public class Board {
     public Board(){
         piecesInGame = new LinkedList<>();
 
-        createStartersPieces();
+        //createStartersPieces();
+        debugBoard();
     }
 
     /**
@@ -100,6 +101,34 @@ public class Board {
         Piece bQueen = new Queen(util.Color.BLACK, 3, 7);
         piecesInGame.add(bQueen);
         Piece bKing = new King(util.Color.BLACK, 4, 7);
+        piecesInGame.add(bKing);
+    }
+
+    private void debugBoard(){
+        Piece wPawn8 = new Pawn(util.Color.WHITE, 6, 1);
+        piecesInGame.add(wPawn8);
+        Piece wRook1 = new Rook(util.Color.WHITE, 1, 1);
+        piecesInGame.add(wRook1);
+        Piece wKnight1 = new Knight(util.Color.WHITE, 2, 1);
+        piecesInGame.add(wKnight1);
+        Piece wBishop1 = new Bishop(util.Color.WHITE, 3, 1);
+        piecesInGame.add(wBishop1);
+        Piece wQueen = new Queen(util.Color.WHITE, 4, 1);
+        piecesInGame.add(wQueen);
+        Piece wKing = new King(util.Color.WHITE, 5, 1);
+        piecesInGame.add(wKing);
+
+        Piece bPawn8 = new Pawn(util.Color.BLACK, 6, 6);
+        piecesInGame.add(bPawn8);
+        Piece bRook1 = new Rook(util.Color.BLACK, 1, 6);
+        piecesInGame.add(bRook1);
+        Piece bKnight1 = new Knight(util.Color.BLACK, 2, 6);
+        piecesInGame.add(bKnight1);
+        Piece bBishop1 = new Bishop(util.Color.BLACK, 3, 6);
+        piecesInGame.add(bBishop1);
+        Piece bQueen = new Queen(util.Color.BLACK, 4, 6);
+        piecesInGame.add(bQueen);
+        Piece bKing = new King(util.Color.BLACK, 5, 6);
         piecesInGame.add(bKing);
     }
 

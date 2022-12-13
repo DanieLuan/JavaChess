@@ -23,4 +23,10 @@ public class Spot {
     public Piece getCurrentPiece() {
         return currentPiece;
     }
+
+    //toString method
+    @Override
+    public String toString() {
+        return "(" + posX + ", " + posY + ")";
+    }
 }

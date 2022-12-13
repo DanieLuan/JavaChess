@@ -109,49 +109,59 @@ public abstract class Piece {
         int endY;
 
         //Itera da posição da peça até a borda inferior, ou até encontrar uma peça (se for inimigo também adiciona o spot)
-        for(int i = y; i > 0; i--){
-            if(board.isOccupied(x, i)){
-                if(board.isEnemy(x, i, board.getPieceInPos(x, i))){
+        for(int i = y; i >= 0; i--){
+            if(board.getPieceInPos(x, i) != this){
+                if(board.isOccupied(x, i)){
+                    if(board.isEnemy(x, i, this)){
+                        possibleMoves.add(new Spot(x, i));
+                        break;
+                    }
+                } else {
                     possibleMoves.add(new Spot(x, i));
                 }
-                break;
-            } else {
-                possibleMoves.add(new Spot(x, i));
             }
         }
+
         //Itera da posição da peça até a borda superior, ou até encontrar uma peça (se for inimigo também adiciona o spot)
-        for(int i = y; i < 7; i++){
-            if(board.isOccupied(x, i)){
-                if(board.isEnemy(x, i, board.getPieceInPos(x, i))){
+        for(int i = y; i <= 7; i++){
+            if(board.getPieceInPos(x, i) != this){
+                if(board.isOccupied(x, i)){
+                    if(board.isEnemy(x, i, this)){
+                        possibleMoves.add(new Spot(x, i));
+                        break;
+                    }
+                } else {
                     possibleMoves.add(new Spot(x, i));
                 }
-                break;
-            } else {
-                possibleMoves.add(new Spot(x, i));
             }
         }
 
-        for(int i = x; i > 0; i--){
-            if(board.isOccupied(i, y)){
-                if(board.isEnemy(i, y, board.getPieceInPos(i, y))){
+        for(int i = x; i >= 0; i--){
+            if(board.getPieceInPos(i, y) != this){
+                if(board.isOccupied(i, y)){
+                    if(board.isEnemy(i, y, this)){
+                        possibleMoves.add(new Spot(i, y));
+                        break;
+                    }
+                } else {
                     possibleMoves.add(new Spot(i, y));
                 }
-                break;
-            } else {
-                possibleMoves.add(new Spot(i, y));
             }
         }
 
-        for(int i = x; i < 7; i++){
-            if(board.isOccupied(i, y)){
-                if(board.isEnemy(i, y, board.getPieceInPos(i, y))){
+        for(int i = x; i <= 7; i++){
+            if(board.getPieceInPos(i, y) != this) {
+                if(board.isOccupied(i, y)){
+                    if(board.isEnemy(i, y, this)){
+                        possibleMoves.add(new Spot(i, y));
+                        break;
+                    }
+                } else {
                     possibleMoves.add(new Spot(i, y));
                 }
-                break;
-            } else {
-                possibleMoves.add(new Spot(i, y));
             }
         }
+
     }
 
     public abstract void calculatePossiblePositions(int x, int y, Board board);

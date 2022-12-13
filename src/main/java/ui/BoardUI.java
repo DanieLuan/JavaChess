@@ -192,6 +192,9 @@ public class BoardUI {
 
                         pieceSelectedPossibleMoves = boardGame.getPieceInPos(pieceSelectedXPos,pieceSelectedYPos).getPossibleMoves(boardGame);
                         insertPossiblePositions(pieceSelectedPossibleMoves);
+                        for(Spot spot : pieceSelectedPossibleMoves){
+                            System.out.println(spot);
+                        }
 
                         //TODO: colocar possíveis posições onde a peça pode ir
 
