@@ -25,38 +25,17 @@ public class King extends Piece{
 
     //TODO: implementar o movimento do rei
 
-    public boolean kingValidate(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame){
-        if (spotPosX == pieceSelected.getPosX() - 1 && spotPosY == pieceSelected.getPosY() + 1){
-            return true;
-        } else if (spotPosX == pieceSelected.getPosX() && spotPosY == pieceSelected.getPosY() + 1){
-            return true;
-        } else if (spotPosX == pieceSelected.getPosX() + 1 && spotPosY == pieceSelected.getPosY() + 1){
-            return true;
-        } else if (spotPosX == pieceSelected.getPosX() - 1 && spotPosY == pieceSelected.getPosY()){
-            return true;
-        } else if (spotPosX == pieceSelected.getPosX() + 1 && spotPosY == pieceSelected.getPosY()){
-            return true;
-        } else if (spotPosX == pieceSelected.getPosX() - 1 && spotPosY == pieceSelected.getPosY() - 1){
-            return true;
-        } else if (spotPosX == pieceSelected.getPosX() && spotPosY == pieceSelected.getPosY() - 1){
-            return true;
-        } else if (spotPosX == pieceSelected.getPosX() + 1 && spotPosY == pieceSelected.getPosY() - 1){
-            return true;
-        }
-        return false;
-    }
+
 
     @Override
     public void calculatePossiblePositions(int x, int y, Board board) {
-        kingValidate(x, y, this, board);
-
-
+        kingValidate(x,y,this,board);
     }
 
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
-        for (Spot spot : this.getPossibleMoves(boardGame)) {
-            if (spotPosX == spot.getPosX() && spotPosY == spot.getPosY()){
+        for(Spot spot : pieceSelected.getPossibleMoves(boardGame)){
+            if(spot.getPosX() == spotPosX && spot.getPosY() == spotPosY){
                 return true;
             }
         }
