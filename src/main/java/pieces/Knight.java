@@ -1,6 +1,7 @@
 package pieces;
 
 import board.Board;
+import board.Spot;
 import util.Color;
 import util.Type;
 
@@ -25,7 +26,39 @@ public class Knight extends Piece {
     }
 
     @Override
+    public void calculatePossiblePositions(int x, int y, Board board) {
+        if(moveIsValid(x + 1, y + 2, this, board)){
+            possibleMoves.add(new Spot(x + 1, y + 2));
+        }
+        if(moveIsValid(x + 2, y + 1, this, board)){
+            possibleMoves.add(new Spot(x + 2, y + 1));
+        }
+        if(moveIsValid(x + 2, y - 1, this, board)){
+            possibleMoves.add(new Spot(x + 2, y - 1));
+        }
+        if(moveIsValid(x + 1, y - 2, this, board)){
+            possibleMoves.add(new Spot(x + 1, y - 2));
+        }
+        if(moveIsValid(x - 1, y - 2, this, board)){
+            possibleMoves.add(new Spot(x - 1, y - 2));
+        }
+        if(moveIsValid(x - 2, y - 1, this, board)){
+            possibleMoves.add(new Spot(x - 2, y - 1));
+        }
+        if(moveIsValid(x - 2, y + 1, this, board)){
+            possibleMoves.add(new Spot(x - 2, y + 1));
+        }
+        if(moveIsValid(x - 1, y + 2, this, board)){
+            possibleMoves.add(new Spot(x - 1, y + 2));
+        }
+
+    }
+
+    @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
+        if(spotPosX < 0 || spotPosX > 7 || spotPosY < 0 || spotPosY > 7){
+            return false;
+        }
         if(knightMoveValidator(spotPosX, spotPosY, pieceSelected)){
             if(!boardGame.isOccupied(spotPosX, spotPosY)){
                 return true;
@@ -40,20 +73,28 @@ public class Knight extends Piece {
 
     private boolean knightMoveValidator(int spotPosX, int spotPosY, Piece pieceSelected) {
         if ((spotPosX == pieceSelected.getPosX() - 1) && (spotPosY == pieceSelected.getPosY() + 2)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()-1, pieceSelected.getPosY()+2));
             return true;
         } else if ((spotPosX == pieceSelected.getPosX() + 1) && (spotPosY == pieceSelected.getPosY() + 2)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()+1, pieceSelected.getPosY()+2));
             return true;
         } else if ((spotPosX == pieceSelected.getPosX() - 2) && (spotPosY == pieceSelected.getPosY() + 1)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()-2, pieceSelected.getPosY()+1));
             return true;
         } else if ((spotPosX == pieceSelected.getPosX() + 2) && (spotPosY == pieceSelected.getPosY() + 1)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()+2, pieceSelected.getPosY()+1));
             return true;
         } else if ((spotPosX == pieceSelected.getPosX() - 2) && (spotPosY == pieceSelected.getPosY() - 1)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()-2, pieceSelected.getPosY()-1));
             return true;
         } else if ((spotPosX == pieceSelected.getPosX() + 2) && (spotPosY == pieceSelected.getPosY() - 1)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()+2, pieceSelected.getPosY()-1));
             return true;
         } else if ((spotPosX == pieceSelected.getPosX() - 1) && (spotPosY == pieceSelected.getPosY() - 2)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()-1, pieceSelected.getPosY()-2));
             return true;
         } else if ((spotPosX == pieceSelected.getPosX() + 1) && (spotPosY == pieceSelected.getPosY() - 2)) {
+            possibleMoves.add(new Spot(pieceSelected.getPosX()+1, pieceSelected.getPosY()-2));
             return true;
         }
         return false;

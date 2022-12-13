@@ -2,26 +2,22 @@ package board;
 import pieces.*;
 
 public class Spot {
-
-    private int xPos;
-    private int yPos;
-
+    private int posX;
+    private int posY;
     private Piece currentPiece;
 
-    //Constructor
-    public Spot(int xPos, int yPos, Piece currentPiece) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.currentPiece = currentPiece;
+    public Spot(int xPos, int yPos) {
+        this.posX = xPos;
+        this.posY = yPos;
+        this.currentPiece = null;
     }
 
-    //Getters
-    public int getxPos() {
-        return xPos;
+    public int getPosX() {
+        return posX;
     }
 
-    public int getyPos() {
-        return yPos;
+    public int getPosY() {
+        return posY;
     }
 
     public Piece getCurrentPiece() {

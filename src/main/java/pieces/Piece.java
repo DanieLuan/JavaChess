@@ -1,9 +1,12 @@
 package pieces;
 
 import board.Board;
+import board.Spot;
 import ui.PieceUI;
 import util.Color;
 import util.Type;
+
+import java.util.LinkedList;
 
 /**
  * Abstract Class that represent the idea of a piece.
@@ -14,7 +17,7 @@ public abstract class Piece {
     private Color color;
     private Type type;
     private int posX;
-
+    public LinkedList<Spot> possibleMoves = new LinkedList<>();
     private int posY;
 
     /**
@@ -92,7 +95,67 @@ public abstract class Piece {
         this.posX = posX;
         this.posY = posY;
     }
-    
+
+    public LinkedList<Spot> getPossibleMoves(Board board) {
+        possibleMoves.clear();
+        calculatePossiblePositions(posX, posY, board);
+        return possibleMoves;
+    }
+
+    public void linearPositions(Board board, int x, int y){
+        int startX;
+        int startY;
+        int endX;
+        int endY;
+
+        //Itera da posição da peça até a borda inferior, ou até encontrar uma peça (se for inimigo também adiciona o spot)
+        for(int i = y; i > 0; i--){
+            if(board.isOccupied(x, i)){
+                if(board.isEnemy(x, i, board.getPieceInPos(x, i))){
+                    possibleMoves.add(new Spot(x, i));
+                }
+                break;
+            } else {
+                possibleMoves.add(new Spot(x, i));
+            }
+        }
+        //Itera da posição da peça até a borda superior, ou até encontrar uma peça (se for inimigo também adiciona o spot)
+        for(int i = y; i < 7; i++){
+            if(board.isOccupied(x, i)){
+                if(board.isEnemy(x, i, board.getPieceInPos(x, i))){
+                    possibleMoves.add(new Spot(x, i));
+                }
+                break;
+            } else {
+                possibleMoves.add(new Spot(x, i));
+            }
+        }
+
+        for(int i = x; i > 0; i--){
+            if(board.isOccupied(i, y)){
+                if(board.isEnemy(i, y, board.getPieceInPos(i, y))){
+                    possibleMoves.add(new Spot(i, y));
+                }
+                break;
+            } else {
+                possibleMoves.add(new Spot(i, y));
+            }
+        }
+
+        for(int i = x; i < 7; i++){
+            if(board.isOccupied(i, y)){
+                if(board.isEnemy(i, y, board.getPieceInPos(i, y))){
+                    possibleMoves.add(new Spot(i, y));
+                }
+                break;
+            } else {
+                possibleMoves.add(new Spot(i, y));
+            }
+        }
+    }
+
+    public abstract void calculatePossiblePositions(int x, int y, Board board);
+
     public abstract boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame);
 
     @Override

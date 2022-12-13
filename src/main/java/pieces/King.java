@@ -45,7 +45,12 @@ public class King extends Piece{
         
         return false;
     }
-    
+
+    @Override
+    public void calculatePossiblePositions(int x, int y, Board board) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
         if (boardGame.isOccupied(spotPosX, spotPosY) && boardGame.isEnemy(spotPosX, spotPosY, pieceSelected) && kingValidate(spotPosX, spotPosY, pieceSelected, boardGame)){

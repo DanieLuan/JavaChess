@@ -23,6 +23,10 @@ public class Rook extends Piece{
     }
 
     //TODO: implementar o movimento da torre
+    public void calculatePossiblePositions(int x, int y, Board board){
+        linearPositions(board, x, y);
+
+    }
 
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {

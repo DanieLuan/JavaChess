@@ -23,7 +23,6 @@ import game.GameRules;
 public class Board {
 
     public static final int BOARD_SIZE = 8;
-
     public LinkedList<Piece> piecesInGame;
     public GameRules rules =  new GameRules();
 

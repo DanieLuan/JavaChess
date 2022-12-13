@@ -3,10 +3,13 @@ package ui;
 import board.Board;
 import javax.swing.*;
 
+import board.Spot;
 import util.Color;
 import util.Type;
 import util.ImageThreatment;
 import pieces.*;
+
+import java.util.LinkedList;
 
 import static ui.BoardUI.JPANEL_HEIGHT;
 import static ui.BoardUI.JPANEL_WIDTH;
@@ -78,7 +81,12 @@ public class PieceUI extends Piece{
 
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void calculatePossiblePositions(int x, int y, Board board){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 

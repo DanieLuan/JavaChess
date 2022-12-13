@@ -24,6 +24,11 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public void calculatePossiblePositions(int x, int y, Board board) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

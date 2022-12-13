@@ -1,6 +1,7 @@
 package pieces;
 
 import board.Board;
+import board.Spot;
 import ui.PieceUI;
 import util.Color;
 import util.Type;
@@ -13,6 +14,9 @@ import util.Type;
  */
 
 public class Pawn extends Piece{
+
+    private static final int START_WHITE_PAWN_SPOT = 1;
+    private static final int START_BLACK_PAWN_SPOT = 6;
 
     /**
      * Constructor of the Pawn class.
@@ -32,6 +36,7 @@ public class Pawn extends Piece{
      * @param boardGame
      * @return
      */
+
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame){
         if (pieceSelected.getColor() == Color.WHITE){
@@ -47,9 +52,43 @@ public class Pawn extends Piece{
                 }
             }
         }
-        
-        
         return false;
+    }
+
+    @Override
+    public void calculatePossiblePositions(int x, int y, Board board) {
+        if(this.getColor() == Color.WHITE){
+            if(this.getPosY() == START_WHITE_PAWN_SPOT){
+                possibleMoves.add(new Spot(x, y+1));
+                possibleMoves.add(new Spot(x, y+2));
+            } else {
+                if(!board.isOccupied(x, y+1)){
+                    possibleMoves.add(new Spot(x, y+1));
+                }
+                if(board.isEnemy(x+1, y+1, this)){
+                    possibleMoves.add(new Spot(x+1, y+1));
+                }
+                if(board.isEnemy(x-1, y+1, this)){
+                    possibleMoves.add(new Spot(x-1, y+1));
+                }
+            }
+        } else {
+            if(this.getPosY() == START_BLACK_PAWN_SPOT){
+                possibleMoves.add(new Spot(x, y-1));
+                possibleMoves.add(new Spot(x, y-2));
+            } else {
+                if(!board.isOccupied(x, y-1)){
+                    possibleMoves.add(new Spot(x, y-1));
+                }
+                if(board.isEnemy(x+1, y-1, this)){
+                    possibleMoves.add(new Spot(x+1, y-1));
+                }
+                if(board.isEnemy(x-1, y-1, this)){
+                    possibleMoves.add(new Spot(x-1, y-1));
+                }
+            }
+        }
+
     }
     
     public boolean captureIsValid(int spotPosx, int spotposy, PieceUI pieceSelected){

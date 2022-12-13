@@ -11,10 +11,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import game.GameRules;
 import pieces.*;
 import board.*;
+import util.ImageThreatment;
 import util.Type;
 
 /**
@@ -26,16 +29,19 @@ public class BoardUI {
 
     private static final int BOARD_SIZE_HEIGHT = 839;
     private static final int BOARD_SIZE_WIDTH = 816;
-    private static final Color black = Color.decode("#769656");
-    private static final Color blackHighlight = Color.decode("#baca2b");
-    private static final Color white = Color.decode("#eeeed2");
-    private static final Color whiteHighlight = Color.decode("#f6f669");
+    private static final Color BLACK = Color.decode("#769656");
+    private static final Color BLACK_HIGHLIGHT = Color.decode("#baca2b");
+    private static final Color WHITE = Color.decode("#eeeed2");
+    private static final Color WHITE_HIGHLIGHT = Color.decode("#f6f669");
+    private static final Color RED_WHITE = Color.decode("#E08080");
+    private static final Color RED_BLACK = Color.decode("#CC7575");
     public static int JPANEL_WIDTH;
     public static int JPANEL_HEIGHT;
     private final Board boardGame;
     private PieceUI pieceSelected = null;
     private int pieceSelectedXPos;
     private int pieceSelectedYPos;
+    private LinkedList<Spot> pieceSelectedPossibleMoves;
     private final JLayeredPane[][] boardGameUI = new JLayeredPane[Board.BOARD_SIZE][Board.BOARD_SIZE];
     private final JFrame boardGameChessFrame = new JFrame();
     private static JLayeredPane glassPanel;
@@ -52,6 +58,7 @@ public class BoardUI {
     public BoardUI(Board boardGame) {
         this.boardGame = boardGame;
 
+        pieceSelectedPossibleMoves = new LinkedList<>();
 
         changeIconFrame();
         playStartGamePieceSFX();
@@ -127,9 +134,9 @@ public class BoardUI {
                 boardGameUI[x][y] = new JLayeredPane();
                 boardGameUI[x][y].setLayout(pickLayout.getLayout());
                 if (isBlack){
-                    boardGameUI[x][y].setBackground(black);
+                    boardGameUI[x][y].setBackground(BLACK);
                 } else {
-                    boardGameUI[x][y].setBackground(white);
+                    boardGameUI[x][y].setBackground(WHITE);
                 }
                 isBlack = !isBlack;
                 boardGameUI[x][y].lowestLayer();
@@ -158,13 +165,13 @@ public class BoardUI {
                 int mouseOnFramePosY = e.getY();
                 int spotPosX = ((mouseOnFramePosX-16)/100);
                 int spotPosY = 7-((mouseOnFramePosY-39)/100);
-                repaintBackground(black,white);
-                
+                repaintBackground(BLACK,WHITE);
+                removePossiblePositions(pieceSelectedPossibleMoves);
                 //TODO: usar Board.getPieceInPos
                 for (Piece p : boardGame.piecesInGame) {
                     if (p.getPosX() == spotPosX && p.getPosY() == spotPosY) {
                         pieceSelected = new PieceUI(p, mouseOnFramePosX, mouseOnFramePosY);
-                        highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                        highlightSpot(spotPosX,spotPosY,BLACK_HIGHLIGHT,WHITE_HIGHLIGHT);
 
                         pieceSelectedXPos = spotPosX;
                         pieceSelectedYPos = spotPosY;
@@ -180,6 +187,13 @@ public class BoardUI {
                         boardGameChessFrame.revalidate();
                         boardGameChessFrame.repaint();
                         boardGameUI[spotPosX][spotPosY].removeAll();
+
+
+
+                        pieceSelectedPossibleMoves = boardGame.getPieceInPos(pieceSelectedXPos,pieceSelectedYPos).getPossibleMoves(boardGame);
+                        insertPossiblePositions(pieceSelectedPossibleMoves);
+
+                        //TODO: colocar possíveis posições onde a peça pode ir
 
                         reMoveAndPaint(spotPosX, spotPosY);
                         break;
@@ -211,10 +225,13 @@ public class BoardUI {
                     if(!boardGame.isOccupied(spotPosX, spotPosY)){ //Verificar se a peça está no mesmo canto                        
                         if (boardGame.rules.moveIsValid(spotPosX, spotPosY, boardGame.getPieceInPos(pieceSelected.getPosX(), pieceSelected.getPosY()), boardGame)){
                             System.out.println("Movimento valido");
+
+                            removePossiblePositions(pieceSelectedPossibleMoves);
+
                             boardGame.movePiece(pieceSelected.getPosX() , pieceSelected.getPosY(), spotPosX, spotPosY);
                             addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
                             playMovePieceSFX();
-                            highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                            highlightSpot(spotPosX,spotPosY,BLACK_HIGHLIGHT,WHITE_HIGHLIGHT);
                         } else {
                             addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
                         }
@@ -237,23 +254,28 @@ public class BoardUI {
                         } else {
                             if (pieceSelected.getType() == Type.PAWN){
                                 if (boardGame.rules.pawnCaptureIsValid(spotPosX, spotPosY, pieceSelected)){
+
+                                    //TODO: porque um tratamento difente para o peão?
+
                                     System.out.println("Movimento valido : comer peça inimiga");
+                                    removePossiblePositions(pieceSelectedPossibleMoves);
                                     boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                                     removeBoardGamePieceLabel(spotPosX, spotPosY);
                                     addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
                                     playCapturePieceSFX();
-                                    highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                                    highlightSpot(spotPosX,spotPosY,BLACK_HIGHLIGHT,WHITE_HIGHLIGHT);
                                 } else {
                                     addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
                                 }
                             } else {
                                 if (boardGame.rules.moveIsValid(spotPosX, spotPosY, boardGame.getPieceInPos(pieceSelected.getPosX(), pieceSelected.getPosY()), boardGame)){
                                     System.out.println("Movimento valido : comer peça inimiga");
+                                    removePossiblePositions(pieceSelectedPossibleMoves);
                                     boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
                                     removeBoardGamePieceLabel(spotPosX, spotPosY);
                                     addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
                                     playCapturePieceSFX();
-                                    highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);
+                                    highlightSpot(spotPosX, spotPosY, BLACK_HIGHLIGHT, WHITE_HIGHLIGHT);
                                 } else {
                                     addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
                                 }
@@ -420,6 +442,43 @@ public class BoardUI {
         boardGameChessFrame.setVisible(true);
         boardGameChessFrame.repaint();
     }
+
+    private void insertPossiblePositions(LinkedList<Spot> positions){
+        for (Spot spot : positions){
+            if(boardGame.isEnemy(spot.getPosX(), spot.getPosY(), pieceSelected)){
+                highlightSpot(spot.getPosX(), spot.getPosY(), RED_BLACK, RED_WHITE);
+            } else {
+                boardGameUI[spot.getPosX()][spot.getPosY()].add(highlightCircle());
+            }
+        }
+            boardGameChessFrame.setVisible(true);
+            boardGameChessFrame.revalidate();
+            boardGameChessFrame.repaint();
+    }
+
+    private void removePossiblePositions(LinkedList<Spot> positions){
+        for (Spot spot : positions){
+            if(!boardGame.isOccupied(spot.getPosX(), spot.getPosY())){
+                boardGameUI[spot.getPosX()][spot.getPosY()].removeAll();
+            }
+        }
+        boardGameChessFrame.setVisible(true);
+        boardGameChessFrame.revalidate();
+        boardGameChessFrame.repaint();
+    }
+
+    private JLabel highlightCircle(){
+        JLabel highlightLabel = new JLabel();
+        ImageIcon highlightIcon = new ImageIcon("resources/highlight-position.png");
+
+        highlightIcon = ImageThreatment.pieceImageResize(highlightIcon, 90, 90);
+
+        highlightLabel.setIcon(highlightIcon);
+
+        return highlightLabel;
+
+    }
+
 
     private void playMovePieceSFX(){
         File soundFilePath = new File("resources/sfx/move-self.wav");
