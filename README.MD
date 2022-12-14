@@ -5,6 +5,8 @@ Feito por:
 - [Daniel Luan](https://github.com/DanieLuan)
 - [Murilo da Rocha](https://github.com/th3-Rocha)
 
+[VIDEO: Projeto Final LP2 - Apresentação](https://youtu.be/lgY0jw2E0g8)
+
 # O que é o JavaChess?
 JavaChess é um projeto feito para a disciplina de Linguagem de Programação II, no período de 2022.2.
 O projeto consiste em implementar um jogo de xadrez em Java, utilizando a biblioteca Swing para a interface gráfica.
