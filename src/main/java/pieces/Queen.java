@@ -23,8 +23,12 @@ public class Queen extends Piece{
         super(color, Type.QUEEN, posX, posY);
     }
 
-    //TODO: implementar o movimento da rainha
-
+    /**
+     * Method that calculates the possible moves of the Queen piece.
+     * @param x
+     * @param y
+     * @param board
+     */
     @Override
     public void calculatePossiblePositions(int x, int y, Board board) {
         linearPositions(board, this.getPosX(), this.getPosY());
@@ -32,6 +36,14 @@ public class Queen extends Piece{
 
     }
 
+    /**
+     * Method that verify if the queen can move to the position (x, y).
+     * @param spotPosX
+     * @param spotPosY
+     * @param pieceSelected
+     * @param boardGame
+     * @return
+     */
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
         for(Spot spot : pieceSelected.getPossibleMoves(boardGame)){

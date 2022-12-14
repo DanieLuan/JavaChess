@@ -96,12 +96,23 @@ public abstract class Piece {
         this.posY = posY;
     }
 
+    /**
+     * Method that calculates and return a list of the possible moves of the piece.
+     * @param board
+     * @return
+     */
     public LinkedList<Spot> getPossibleMoves(Board board) {
         possibleMoves.clear();
         calculatePossiblePositions(posX, posY, board);
         return possibleMoves;
     }
 
+    /**
+     * Method that calculates the possible moves of a piece in diagonal.
+     * @param board
+     * @param x
+     * @param y
+     */
     public void diagonalPositions(Board board, int x, int y){
         for(int i = x, j = y; i <= 7 && j <= 7; i++, j++){
             if(board.getPieceInPos(i, j) != this){
@@ -162,6 +173,12 @@ public abstract class Piece {
 
     }
 
+    /**
+     * Method that calculates the possible moves of a piece in horizontal and vertical.
+     * @param board
+     * @param x
+     * @param y
+     */
     public void linearPositions(Board board, int x, int y){
         //Itera da posição da peça até a borda inferior, ou até encontrar uma peça (se for inimigo também adiciona o spot)
         for(int i = y; i >= 0; i--){
@@ -223,8 +240,22 @@ public abstract class Piece {
 
     }
 
+    /**
+     * Method to be implemented.
+     * @param x
+     * @param y
+     * @param board
+     */
     public abstract void calculatePossiblePositions(int x, int y, Board board);
 
+    /**
+     * Method to be implemented.
+     * @param spotPosX
+     * @param spotPosY
+     * @param pieceSelected
+     * @param boardGame
+     * @return
+     */
     public abstract boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame);
 
     @Override

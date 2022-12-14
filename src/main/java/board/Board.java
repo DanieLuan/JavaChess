@@ -34,8 +34,8 @@ public class Board {
         piecesInGame = new LinkedList<>();
         isWhiteKingCheck = false;
         isBlackKingCheck = false;
-        //createStartersPieces();
-        debugBoard();
+        createStartersPieces();
+        //debugBoard();
     }
 
     /**
@@ -109,6 +109,9 @@ public class Board {
         piecesInGame.add(bKing);
     }
 
+    /**
+     * Create a debug board.
+     */
     private void debugBoard(){
         Piece wPawn8 = new Pawn(util.Color.WHITE, 6, 1);
         piecesInGame.add(wPawn8);
@@ -155,6 +158,11 @@ public class Board {
         }
         return null;
     }
+
+    /**
+     * Check if the pawn is to being promoted.
+     * @return
+     */
     public Piece pawnPromotion(){
         for (Piece pawn : piecesInGame) {
             if(pawn.getType() == Type.PAWN){
@@ -181,6 +189,10 @@ public class Board {
         return null;
     }
 
+    /**
+     * Pass to the next turn.
+     * @return the inverted turn (if is black goes to white, if is white goes to black)
+     */
     public boolean changeTurn() {
 
         return isWhiteTurn = !isWhiteTurn;
@@ -277,11 +289,11 @@ public class Board {
         return false;
     }
 
-    //TODO: Implementar método para verificar se a posição onde o rei está querendo ir é segura;
-    public boolean isSpotSafe(int posX, int posY){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * Search the king in the board and return it.
+     * @param color
+     * @return king instance
+     */
     public Piece getKingPiece(util.Color color){
         for (Piece piece : piecesInGame) {
             if(piece instanceof King && piece.getColor() == color){
@@ -291,6 +303,11 @@ public class Board {
         return null;
     }
 
+    /**
+     * Look for all enemies pieces and save his possibleMoves in a list.
+     * @param color color of the king
+     * @return list of enemies possible moves
+     */
     public LinkedList<Spot> getAllKingEnemiesMovements(Color color){
         LinkedList<Spot> allKingEnemiesMovements = new LinkedList<>();
         for (Piece piece : piecesInGame) {

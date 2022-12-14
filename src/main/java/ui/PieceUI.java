@@ -49,27 +49,19 @@ public class PieceUI extends Piece{
         return pieceImage;
     }
 
+    /**
+     * Method that returns the ready Jlabel of a piece to use.
+     * @return
+     */
     public JLabel getPieceLabel(){
         JLabel pieceLabel = new JLabel(this.getPieceImage());
         return pieceLabel;
     }
 
-    public int getCoordUIX() {
-        return coordUIX;
-    }
-
-    public void setCoordUIX(int coordUIX) {
-        this.coordUIX = coordUIX;
-    }
-
-    public int getCoordUIY() {
-        return coordUIY;
-    }
-
-    public void setCoordUIY(int coordUIY) {
-        this.coordUIY = coordUIY;
-    }
-
+    /**
+     * Method that converts the X coordinate of the piece in the board to the X coordinate in the UI.
+     * @return char
+     */
     public char convertCoordXToChar() {
         posXchar = (char) (97 + this.getPosX());
         return posXchar;

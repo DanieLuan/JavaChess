@@ -52,7 +52,6 @@ public class BoardUI {
     private static JPanel pickLayout = new JPanel() ;
     private static JLabel pieceRenderMouse;
 
-    //TODO: Colocar letras e números indicando as posições do tabuleiro
     private static JLabel[] numbersLabelBackground = new JLabel[Board.BOARD_SIZE];
     private static JLabel[] lettersLabelBackground = new JLabel[Board.BOARD_SIZE];
 
@@ -111,6 +110,10 @@ public class BoardUI {
             spawnPiece(p,p.getPosX(),p.getPosY());
         }
     }
+
+    /**
+     * Method that change the icon of the game frame.
+     */
     public void changeIconFrame(){
         ImageIcon img = new ImageIcon("resources/pawn_icon.png");
         JTextField myTitle = myTitle = new JTextField("JavaChess");
@@ -174,7 +177,6 @@ public class BoardUI {
 
                 repaintBackground(BLACK,WHITE);
                 removePossiblePositions(pieceSelectedPossibleMoves);
-                //TODO: usar Board.getPieceInPos
                 for (Piece p : boardGame.piecesInGame) {
                     if (p.getPosX() == spotPosX && p.getPosY() == spotPosY) {
                         pieceSelected = new PieceUI(p, mouseOnFramePosX, mouseOnFramePosY);
@@ -274,7 +276,6 @@ public class BoardUI {
                         } else {
                             if (pieceSelected.getType() == Type.PAWN){
                                 if (boardGame.rules.pawnCaptureIsValid(spotPosX, spotPosY, pieceSelected)){
-                                    //TODO: porque um tratamento difente para o peão?
                                     System.out.println("Movimento valido : comer peça inimiga");
                                     isWhiteTurn = !isWhiteTurn;
 
@@ -452,6 +453,10 @@ public class BoardUI {
         boardGameUI[x][y].repaint();
     }
 
+    /**
+     * Return true if the king is in check by another piece.
+     * @return true if the king is in check.
+     */
     private boolean preventKingCheck(){
         if(boardGame.isWhiteKingCheck){
             Piece wKing = boardGame.getKingPiece(util.Color.WHITE);
@@ -502,6 +507,10 @@ public class BoardUI {
         boardGameChessFrame.repaint();
     }
 
+    /**
+     * Receives a list of spots and puts it in the BoardGame UI respective position.
+     * @param positions
+     */
     private void insertPossiblePositions(LinkedList<Spot> positions){
         for (Spot spot : positions){
             if(spot.getPosX() > 7 || spot.getPosX() < 0 || spot.getPosY() > 7 || spot.getPosY() < 0){
@@ -518,6 +527,10 @@ public class BoardUI {
             boardGameChessFrame.repaint();
     }
 
+    /**
+     * Remove the list of spots from the boardGameUI.
+     * @param positions
+     */
     private void removePossiblePositions(LinkedList<Spot> positions){
         for (Spot spot : positions){
             if(spot.getPosX() > 7 || spot.getPosX() < 0 || spot.getPosY() > 7 || spot.getPosY() < 0){
@@ -532,6 +545,10 @@ public class BoardUI {
         boardGameChessFrame.repaint();
     }
 
+    /**
+     * Highlight a spot that the pieceSelected can move in the turn.
+     * @return
+     */
     private JLabel highlightCircle(){
         JLabel highlightLabel = new JLabel();
         ImageIcon highlightIcon = new ImageIcon("resources/highlight-position.png");
@@ -544,7 +561,9 @@ public class BoardUI {
 
     }
 
-
+    /**
+     * SFX from move piece
+     */
     private void playMovePieceSFX(){
         File soundFilePath = new File("resources/sfx/move-self.wav");
 
@@ -559,7 +578,9 @@ public class BoardUI {
         }
 
     }
-
+    /**
+     * SFX from capture piece
+     */
     private void playCapturePieceSFX(){
         File soundFilePath = new File("resources/sfx/capture.wav");
 
@@ -575,6 +596,9 @@ public class BoardUI {
 
     }
 
+    /**
+     * SFX from check the king.
+     */
     private void playCheckPieceSFX(){
         File soundFilePath = new File("resources/sfx/check.wav");
 
@@ -590,6 +614,9 @@ public class BoardUI {
 
     }
 
+    /**
+     * SFX to the start of the game.
+     */
     private void playStartGamePieceSFX(){
         File soundFilePath = new File("resources/sfx/startgame.wav");
 
@@ -605,6 +632,9 @@ public class BoardUI {
 
     }
 
+    /**
+     * SFX from game over.
+     */
     private void playGameOverPieceSFX(){
         File soundFilePath = new File("resources/sfx/game-over.wav");
 
@@ -620,6 +650,9 @@ public class BoardUI {
 
     }
 
+    /**
+     * SFX from Castle.
+     */
     private void playRockyPieceSFX(){
         File soundFilePath = new File("resources/sfx/rocky.wav");
 

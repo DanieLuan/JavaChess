@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class that represents a JFrame to choice what piece the pawn will be promoted.
+ */
 public class PromoPawn extends JFrame implements ActionListener {
     JButton queenButton = new JButton("Queen");
     JButton bishopButton = new JButton("Bishop");

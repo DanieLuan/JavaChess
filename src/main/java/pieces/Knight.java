@@ -25,6 +25,12 @@ public class Knight extends Piece {
         super(color, Type.KNIGHT, posX, posY);
     }
 
+    /**
+     * Method that calculates the possible moves of the Knight piece.
+     * @param x
+     * @param y
+     * @param board
+     */
     @Override
     public void calculatePossiblePositions(int x, int y, Board board) {
         if(moveIsValid(x + 1, y + 2, this, board)){
@@ -54,6 +60,14 @@ public class Knight extends Piece {
 
     }
 
+    /**
+     * Method that verify if the knight can move to the position (x, y).
+     * @param spotPosX
+     * @param spotPosY
+     * @param pieceSelected
+     * @param boardGame
+     * @return
+     */
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
         if(spotPosX < 0 || spotPosX > 7 || spotPosY < 0 || spotPosY > 7){
@@ -71,6 +85,13 @@ public class Knight extends Piece {
         return false;
     }
 
+    /**
+     * Method that verify if the knight can move to the position (x, y).
+     * @param spotPosX
+     * @param spotPosY
+     * @param pieceSelected
+     * @return
+     */
     private boolean knightMoveValidator(int spotPosX, int spotPosY, Piece pieceSelected) {
         if ((spotPosX == pieceSelected.getPosX() - 1) && (spotPosY == pieceSelected.getPosY() + 2)) {
             possibleMoves.add(new Spot(pieceSelected.getPosX()-1, pieceSelected.getPosY()+2));

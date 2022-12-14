@@ -25,8 +25,12 @@ public class King extends Piece{
         super(color, Type.KING, posX, posY);
     }
 
-    //TODO: implementar o movimento do rei
-
+    /**
+     * Method that calculates the possible moves of the King piece.
+     * @param x
+     * @param y
+     * @param board
+     */
     @Override
     public void calculatePossiblePositions(int x, int y, Board board) {
         kingValidate(x,y,this,board);
@@ -51,7 +55,14 @@ public class King extends Piece{
 
     }
 
-
+    /**
+     * Method that verify if the king can move to the position (x, y).
+     * @param spotPosX
+     * @param spotPosY
+     * @param pieceSelected
+     * @param boardGame
+     * @return
+     */
     @Override
     public boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame) {
         for(Spot spot : pieceSelected.getPossibleMoves(boardGame)){
@@ -62,6 +73,13 @@ public class King extends Piece{
         return false;
     }
 
+    /**
+     * Method that verify the possible moves of the King piece and adds to possibleMoves.
+     * @param x
+     * @param y
+     * @param pieceSelected
+     * @param board
+     */
     private void kingValidate(int x, int y, Piece pieceSelected, Board board){
         int i = x;
         int j = y;

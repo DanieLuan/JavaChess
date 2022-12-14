@@ -29,7 +29,7 @@ public class Pawn extends Piece{
     }
 
     /**
-     *
+     * Method that verify the possible moves of the Pawn piece.
      * @param spotPosX
      * @param spotPosY
      * @param pieceSelected
@@ -55,6 +55,12 @@ public class Pawn extends Piece{
         return false;
     }
 
+    /**
+     * Method that calculates the possible moves of the Pawn piece.
+     * @param x
+     * @param y
+     * @param board
+     */
     @Override
     public void calculatePossiblePositions(int x, int y, Board board) {
         if(this.getColor() == Color.WHITE){
@@ -98,7 +104,14 @@ public class Pawn extends Piece{
         }
 
     }
-    
+
+    /**
+     * Method that verify if the Pawn piece can kill another piece.
+     * @param spotPosx
+     * @param spotposy
+     * @param pieceSelected
+     * @return
+     */
     public boolean captureIsValid(int spotPosx, int spotposy, PieceUI pieceSelected){
         if (pieceSelected.getColor() == Color.WHITE){
             if ((spotposy == pieceSelected.getPosY() + 1 && spotPosx == pieceSelected.getPosX() - 1) || (spotposy == pieceSelected.getPosY() + 1 && spotPosx == pieceSelected.getPosX() + 1)){

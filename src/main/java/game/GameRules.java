@@ -9,7 +9,6 @@ import util.Color;
 
 public class GameRules {
 
-    //TODO: trocar PieceUI por Piece pegado em getPieceInPos
     public static boolean moveIsValid(int spotPosX, int spotPosY, Piece pieceSelected, Board boardGame){
         return pieceSelected.moveIsValid(spotPosX, spotPosY, pieceSelected, boardGame);
     }
