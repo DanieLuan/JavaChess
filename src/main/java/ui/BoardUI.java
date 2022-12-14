@@ -311,16 +311,22 @@ public class BoardUI {
                                     addBoardGamePieceLabel(pieceSelected.getPosX(), pieceSelected.getPosY(), pieceSelected);
                                 }
                             }
-                            
-                            /*System.out.println("Movimento valido : comer peça inimiga");
-                            boardGame.movePiece(pieceSelectedXPos, pieceSelectedYPos, spotPosX, spotPosY);
-                            removeBoardGamePieceLabel(spotPosX, spotPosY);
-                            addBoardGamePieceLabel(spotPosX, spotPosY, pieceSelected);
-                            playCapturePieceSFX();
-                            highlightSpot(spotPosX,spotPosY,blackHighlight,whiteHighlight);*/
+
+
                         }
                     }
                 }
+
+                Piece promo = boardGame.pawnPromotion();
+                if(promo != null){
+                    removeBoardGamePieceLabel(spotPosX, spotPosY);
+                    PieceUI promoUI = new PieceUI(promo, spotPosX, spotPosY);
+                    addBoardGamePieceLabel(spotPosX, spotPosY, promoUI);
+                    playCapturePieceSFX();
+                }
+
+
+
 
                 if(GameRules.isKingCheked(boardGame, isWhiteTurn)){
                     if(isWhiteTurn){

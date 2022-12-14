@@ -9,6 +9,7 @@ import pieces.Knight;
 import pieces.Pawn;
 import pieces.Queen;
 import pieces.Rook;
+import ui.PromoPawn;
 import util.Color;
 import util.Type;
 
@@ -124,6 +125,8 @@ public class Board {
 
         Piece bPawn8 = new Pawn(util.Color.BLACK, 6, 6);
         piecesInGame.add(bPawn8);
+        Piece bPawn9 = new Pawn(util.Color.BLACK, 0, 1);
+        piecesInGame.add(bPawn9);
         Piece bRook1 = new Rook(util.Color.BLACK, 1, 6);
         piecesInGame.add(bRook1);
         Piece bKnight1 = new Knight(util.Color.BLACK, 2, 6);
@@ -145,13 +148,41 @@ public class Board {
     public Piece getPieceInPos(int x, int y){
         for (Piece piece : piecesInGame) {
             if(piece.getPosX() == x && piece.getPosY() == y){
+
+
                 return piece;
             }
         }
         return null;
     }
+    public Piece pawnPromotion(){
+        for (Piece pawn : piecesInGame) {
+            if(pawn.getType() == Type.PAWN){
+                int xPromo = pawn.getPosX();
+                int yPromo = pawn.getPosY();
+                if(pawn.getColor() == Color.WHITE){
+                    if(yPromo == 7){
+                        piecesInGame.remove(pawn);
+                        Piece promoPiece = new Queen(util.Color.WHITE, xPromo, yPromo);
+                        piecesInGame.add(promoPiece);
+                        return promoPiece;
+                    }
+                }else{
+                    if(yPromo == 0){
+                        piecesInGame.remove(pawn);
+                        Piece promoPiece = new Queen(Color.BLACK, xPromo, yPromo);
+                        piecesInGame.add(promoPiece);
+                        return promoPiece;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 
     public boolean changeTurn() {
+
         return isWhiteTurn = !isWhiteTurn;
     }
 
